@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>修改员工</title>
+    <bootstrapcss />
+    <icheckcss />
+</head>
+<body>
+
+<!-- 导航栏开始 -->
+<div class="bjy-admin-nav">
+    <i class="fa fa-home"></i> 首页
+    &gt;
+    后台管理
+    &gt;
+    修改员工
+</div>
+<!-- 导航栏结束 -->
+<ul id="myTab" class="nav nav-tabs">
+   <li>
+         <a href="{:U('Admin/Rule/admin_user_list')}">员工列表</a>
+   </li>
+   <li class="active">
+        <a href="{:U('Admin/Rule/add_admin')}">修改员工</a>
+    </li>
+</ul>
+<form class="form-inline" method="post" id="myForm">
+    <input type="hidden" name="id" value="{$user_data['id']}">
+    <table class="table table-striped table-bordered table-hover table-condensed">
+        <tr>
+            <th><font color="red">*</font>管理组</th>
+            <td>
+                <select name="sector" class="form-control" id="sector">
+            		<volist name='sectorList' id='vo'>
+                         <option value="{$vo.id}" <eq name="sector_id" value="$vo.id">selected</eq>  >{$vo.name}</option>
+                   	</volist>
+            	</select>
+            
+            	<select name="group_ids[]" id="group" class="form-control"></select>
+                
+            </td>
+        </tr>
+        <tr>
+            <th><font color="red">*</font>用户名</th>
+            <td>
+                <input class="form-control" type="hidden" name="username" value="{$user_data['username']}" />
+                <label for="username" >&nbsp;{$user_data['username']}</label>
+            </td>
+        </tr>
+        <tr>
+            <th><font color="red">*</font>姓名</th>
+            <td>
+                <input class="form-control" type="text" name="nikename" value="{$user_data['nikename']}">
+            </td>
+        </tr>
+        <tr>
+            <th>手机号</th>
+            <td>
+                <input class="form-control" type="text" name="phone" value="{$user_data['phone']}">
+            </td>
+        </tr>
+        <tr>
+            <th>邮箱</th>
+            <td>
+                <input class="form-control" type="text" name="email" value="{$user_data['email']}">
+            </td>
+        </tr>
+        <tr>
+            <th>初始密码</th>
+            <td>
+                <input class="form-control" type="text" name="password">如不改密码；留空即可
+            </td>
+        </tr>
+        <tr>
+            <th>状态</th>
+            <td>
+                <span class="inputword">允许登录</span>
+                <input class="xb-icheck" type="radio" name="status" value="1" <eq name="user_data['status']" value="1"> checked="checked" </eq> >
+                &emsp;
+                <span class="inputword">禁止登录</span>
+                <input class="xb-icheck" type="radio" name="status" value="0" <eq name="user_data['status']" value="0"> checked="checked" </eq> >
+            </td>
+        </tr>
+        <tr>
+            <th></th>
+            <td>
+                <input class="btn btn-success" type="submit" value="&nbsp;&nbsp;修&nbsp;&nbsp;改&nbsp;&nbsp;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            	<a class="btn btn-success" href="javascript:history.go(-1);">&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;</a>
+            </td>
+        </tr>
+    </table>
+</form>
+<bootstrapjs />
+<icheckjs color="blue" />
+<script type="text/javascript">
+$(function(){
+	
+	$.ajax({
+        url:"{:U('Rule/getGroupBySectorId')}",
+        type:'post',
+        data:{
+            groupid:{$sector_id}
+        },            
+        dataType:'json',
+        success:function(data){
+       	 $("#group").empty();
+            var count = data.length;
+            var i = 0;
+            var b="";
+               for(i=0;i<count;i++){
+            	   
+            	   if(data[i].id == {$group_id})
+            	   {
+            		   b+="<option value='"+data[i].id+"'  selected  >"+data[i].title+"</option>";
+            	   }else{
+                   		b+="<option value='"+data[i].id+"'>"+data[i].title+"</option>";
+            	   }
+               }
+            $("#group").append(b);
+        },
+        error:function(data){
+       	 alert('获取职务失败,请重试');
+      	}
+    })
+	
+	
+	 $('#sector').change(function(){
+         var value = $(this).val();
+         $.ajax({
+             url:"{:U('Rule/getGroupBySectorId')}",
+             type:'post',
+             data:{
+                 groupid:$(this).val()
+             },            
+             dataType:'json',
+             success:function(data){
+            	 $("#group").empty();
+                 var count = data.length;
+                 var i = 0;
+                 var b="";
+                    for(i=0;i<count;i++){
+                        b+="<option value='"+data[i].id+"'>"+data[i].title+"</option>";
+                    }
+                 $("#group").append(b);
+             },
+             error:function(data){
+            	 alert('获取职务失败,请重试');
+           	}
+         })
+     })
+
+});
+$("#myForm").validate({ 
+	rules: {
+		sector: {
+			required: true			
+		},
+		group: { 
+			required: true
+		},
+		username: { 
+			required: true
+		},
+		nikename: { 
+			required: true
+		}
+	}, 
+	messages: { 		
+		sector: { 
+			required: "必选"
+		},
+		group: {
+		    required: "必选"
+		},
+		username: {
+		    required: "必填"
+		},
+		nikename: {
+		    required: "必填"
+		}
+	} 
+});
+</script>
+</body>
+</html>
