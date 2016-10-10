@@ -359,6 +359,8 @@ class RuleController extends AdminBaseController{
              
             
             $data['status'] = isset($data['status']) ? $data['status'] : 0;
+            $data['data_range'] = isset($data['data_range']) ? $data['data_range'] : 0;
+            $data['region'] = isset($data['region']) ? $data['region'] : 0;
 
             $result=D('Users')->editData($map,$data);
             if($result){

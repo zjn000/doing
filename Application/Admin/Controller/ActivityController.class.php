@@ -116,13 +116,13 @@ class ActivityController extends AdminBaseController{
     	$activity_duration = C('ACTIVITY_DURATION_CONFIG');
     	foreach ($list as $k=>$row)
     	{
-    		$list[$k]['activity_date'] = date("Y-m-d",$row['activity_date']);
+    		$list[$k]['activity_date'] = $row['activity_date'] == 0 ? '' : date("Y-m-d",$row['activity_date']);
     		$list[$k]['activity_area'] = $activity_area[$row['activity_area']];
     		$list[$k]['activity_duration'] = $activity_duration[$row['activity_duration']];
-    		$list[$k]['new_user_number'] = $row['new_user_number'] == 0 ? '' : $row['new_user_number'];
-    		$list[$k]['old_user_number'] = $row['old_user_number'] == 0 ? '' : $row['old_user_number'];
-    		$list[$k]['flyer_number'] = $row['flyer_number'] == 0 ? '' : $row['flyer_number'];
-    		$list[$k]['poster_number'] = $row['poster_number'] == 0 ? '' : $row['poster_number'];
+    		//$list[$k]['new_user_number'] = $row['new_user_number'] == 0 ? '' : $row['new_user_number'];
+    		//$list[$k]['old_user_number'] = $row['old_user_number'] == 0 ? '' : $row['old_user_number'];
+    		//$list[$k]['flyer_number'] = $row['flyer_number'] == 0 ? '' : $row['flyer_number'];
+    		//$list[$k]['poster_number'] = $row['poster_number'] == 0 ? '' : $row['poster_number'];
     	}
     	 
     	 
@@ -266,18 +266,18 @@ class ActivityController extends AdminBaseController{
     	
     	foreach ($list as $k=>$row)
     	{
-    		$list[$k]['activity_date'] = date("Y-m-d",$row['activity_date']);
+    		$list[$k]['activity_date'] = $row['activity_date'] == 0 ? '' : date("Y-m-d",$row['activity_date']);
     		$list[$k]['activity_area'] = $activity_area[$row['activity_area']];
     		$list[$k]['activity_duration'] = $activity_duration[$row['activity_duration']];
     		$list[$k]['activity_period'] = $activity_period[$row['activity_period']];
-    		$list[$k]['new_user_number'] = $row['new_user_number'] == 0 ? '' : $row['new_user_number'];
-    		$list[$k]['old_user_number'] = $row['old_user_number'] == 0 ? '' : $row['old_user_number'];
-    		$list[$k]['flyer_number'] = $row['flyer_number'] == 0 ? '' : $row['flyer_number'];
-    		$list[$k]['poster_number'] = $row['poster_number'] == 0 ? '' : $row['poster_number'];
-    		$list[$k]['part_number'] = $row['part_number'] == 0 ? '' : $row['part_number'];
-    		$list[$k]['gift_number'] = $row['gift_number'] == 0 ? '' : $row['gift_number'];
-    		$list[$k]['part_time'] = $row['part_time'] == 0 ? '' : $row['part_time'];
-    		$list[$k]['staff_costs'] = $row['staff_costs'] == 0 ? '' : $row['staff_costs'];
+    		//$list[$k]['new_user_number'] = $row['new_user_number'] == 0 ? '' : $row['new_user_number'];
+    		//$list[$k]['old_user_number'] = $row['old_user_number'] == 0 ? '' : $row['old_user_number'];
+    		//$list[$k]['flyer_number'] = $row['flyer_number'] == 0 ? '' : $row['flyer_number'];
+    		//$list[$k]['poster_number'] = $row['poster_number'] == 0 ? '' : $row['poster_number'];
+    		//$list[$k]['part_number'] = $row['part_number'] == 0 ? '' : $row['part_number'];
+    		//$list[$k]['gift_number'] = $row['gift_number'] == 0 ? '' : $row['gift_number'];
+    		//$list[$k]['part_time'] = $row['part_time'] == 0 ? '' : $row['part_time'];
+    		//$list[$k]['staff_costs'] = $row['staff_costs'] == 0 ? '' : $row['staff_costs'];
     	}
     	   	
     	

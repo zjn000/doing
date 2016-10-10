@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <title>修改管理员 - bjyadmin</title>
+    <title>修改员工</title>
         <meta http-equiv="Cache-Control" content="no-transform" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
     <link rel="stylesheet" href="/doing/Public/statics/bootstrap-3.3.5/css/bootstrap.min.css" />
@@ -20,15 +20,15 @@
     &gt;
     后台管理
     &gt;
-    修改管理员
+    修改员工
 </div>
 <!-- 导航栏结束 -->
 <ul id="myTab" class="nav nav-tabs">
    <li>
-         <a href="<?php echo U('Admin/Rule/admin_user_list');?>">管理员列表</a>
+         <a href="<?php echo U('Admin/Rule/admin_user_list');?>">员工列表</a>
    </li>
    <li class="active">
-        <a href="<?php echo U('Admin/Rule/add_admin');?>">修改管理员</a>
+        <a href="<?php echo U('Admin/Rule/add_admin');?>">修改员工</a>
     </li>
 </ul>
 <form class="form-inline" method="post" id="myForm">
@@ -56,6 +56,24 @@
             <th><font color="red">*</font>姓名</th>
             <td>
                 <input class="form-control" type="text" name="nikename" value="<?php echo ($user_data['nikename']); ?>">
+            </td>
+        </tr>
+        <tr>
+            <th>数据范围</th>
+            <td>
+            	<span class="inputword">局部</span>
+                <input class="xb-icheck" type="radio" name="data_range" value="0" <?php if(($user_data['data_range']) == "0"): ?>checked="checked"<?php endif; ?> >
+                &emsp;
+                <span class="inputword">全局</span>
+                <input class="xb-icheck" type="radio" name="data_range" value="1" <?php if(($user_data['data_range']) == "1"): ?>checked="checked"<?php endif; ?> >                               
+            </td>
+        </tr>
+        <tr>
+            <th>所属大区</th>
+            <td>
+                <select name="region" class="form-control">
+	            	<?php $_result=C('USER_REGION_CONFIG');if(is_array($_result)): $i = 0; $__LIST__ = $_result;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?><option value="<?php echo ($key); ?>" <?php if(($key) == $user_data['region']): ?>selected<?php endif; ?> ><?php echo ($vo); ?></option><?php endforeach; endif; else: echo "" ;endif; ?>  
+            	</select>
             </td>
         </tr>
         <tr>
@@ -175,6 +193,12 @@ $("#myForm").validate({
 		},
 		group: { 
 			required: true
+		},
+		username: { 
+			required: true
+		},
+		nikename: { 
+			required: true
 		}
 	}, 
 	messages: { 		
@@ -183,6 +207,12 @@ $("#myForm").validate({
 		},
 		group: {
 		    required: "必选"
+		},
+		username: {
+		    required: "必填"
+		},
+		nikename: {
+		    required: "必填"
 		}
 	} 
 });
