@@ -208,6 +208,13 @@ function get_uid(){
 function get_nikename(){
     return $_SESSION['user']['nikename'];
 }
+/**
+ * 返回用户所属大区
+ * @return string 用户所属大区
+ */
+function get_user_region(){
+    return $_SESSION['user']['region'];
+}
 
 /**
  * 返回iso、Android、ajax的json格式数据

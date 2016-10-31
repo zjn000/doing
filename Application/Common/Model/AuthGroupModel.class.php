@@ -22,5 +22,20 @@ class AuthGroupModel extends BaseModel{
 	}
 
 
+	
+	
+	/**
+	 * 根据角色id获取其所属部门id
+	 */
+	public function getSectorIdByUid($userid){
+		$data=$this
+		->alias('ag')
+		->join('__AUTH_GROUP_ACCESS__ aga ON aga.group_id=ag.id AND aga.uid='.$userid)
+		->getField('ag.pid');		
+		return $data;
+	
+	}
+	
+	
 
 }

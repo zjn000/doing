@@ -19,11 +19,17 @@ class IndexController extends HomeBaseController{
             if (empty($data)) {
                 $this->error('账号或密码错误');
             }else{
+            	
+            	$sector_id = D('AuthGroup')->getSectorIdByUid($data['id']);
+
                 $_SESSION['user']=array(
                     'id'=>$data['id'],
                     'username'=>$data['username'],
                     'avatar'=>$data['avatar'],
-                	'nikename'=>$data['nikename']	
+                	'nikename'=>$data['nikename'],
+                	'region' => $data['region'],
+                	'data_range'=> $data['data_range'],
+                	'sector_id'=>$sector_id	
                     );
                 $this->success('登录成功、前往管理后台',U('Admin/Index/index'));
             }

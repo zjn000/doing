@@ -58,6 +58,29 @@ class UsersModel extends BaseModel{
         die('禁止删除用户');
     }
 
+    
+    /**
+     * 根据部门id获取部门全部员工id,nikename
+     * @param integer $sector_id 部门id
+     * @return array
+     */
+    public function getUidsBySectorId($sector_id){
+    	
+    	$result = array();
+    	$list = $this->field('u.id,u.nikename')
+    				->alias('u')
+    				->join('__AUTH_GROUP_ACCESS__ aga ON u.id=aga.uid','LEFT')
+    				->join('__AUTH_GROUP__ ag ON aga.group_id=ag.id and ag.pid='.$sector_id)
+    				->select();
+    	if(!empty($list))
+    	{
+    		foreach ($list as $row)
+    		{
+    			$result[$row['id']] = $row['nikename'];
+    		}
+    	}
+    	return $result;
+    }
 
 
 }

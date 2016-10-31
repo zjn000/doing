@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>添加拜访计划</title>
+    <bootstrapcss />
+    <datejs />
+</head>
+<body id="xb-date">
+
+<!-- 导航栏开始 -->
+<div class="bjy-admin-nav">
+    <a href="{:U('Admin/Index/index')}" target="_parent"><i class="fa fa-home"></i> 首页</a>
+    &gt;
+   <a href="{:U('Admin/VisitsPlan/index')}" target="right_content">拜访计划列表</a>
+    &gt;
+    添加
+</div>
+<!-- 导航栏结束 -->
+<form class="form-inline" method="post" id="myForm" >
+	<input type="hidden" name="business_id" value="{:I('get.id')}" />
+    <table class="table table-striped table-bordered table-hover table-condensed">
+        <tr>
+        	<th>商户名称</th>
+            <td>{:I('get.shop_name')}</td>
+        </tr>
+        <tr>    
+        	<th>拜访内容</th>
+            <td>
+            <select name="type" class="form-control">
+	            <volist name=":C('VISITS_TYPE_CONFIG')" id="vo">
+	   				<option value="{$key}">{$vo}</option>
+				</volist>  
+            </select>
+            </td>
+        </tr>
+        <tr>
+        	<th>计划时间</th>
+            <td>
+            	<input class="form-control" type="text" id="plan_time"  name="plan_time" value="" />
+            </td>
+        </tr>
+        
+        
+        <tr>
+            <td colspan="2" style="text-align: center;">
+            	<input class="btn btn-success" type="submit" value="&nbsp;&nbsp;添&nbsp;&nbsp;加&nbsp;&nbsp;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            	<a class="btn btn-success" href="javascript:history.go(-1);">&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;</a>
+            </td>
+        </tr>
+    </table>
+</form>
+<bootstrapjs />
+<script type="text/javascript">
+$("#myForm").validate({ 
+	rules: {
+		plan_time: {
+			required: true			
+		}
+	}, 
+	messages: { 		
+		plan_time: { 
+			required: "必选"
+		}
+	} 
+});
+var start = {
+    elem: '#plan_time',
+    format: 'YYYY-MM-DD hh:mm:ss',
+    istoday: true,
+    istime: true,
+    start: laydate.now(),
+};
+laydate(start);
+</script>
+<datejs />
+</body>
+</html>

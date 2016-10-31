@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>编辑</title>
+    <bootstrapcss />
+    <icheckcss />
+    <datejs />
+</head>
+<body id="xb-date">
+
+<!-- 导航栏开始 -->
+<div class="bjy-admin-nav">
+    <a href="{:U('Admin/Index/index')}" target="_parent"><i class="fa fa-home"></i> 首页</a>
+    &gt;
+   <a href="{:U('Admin/Activity/index')}" target="right_content">活动信息列表</a>
+    &gt;
+    编辑
+</div>
+<!-- 导航栏结束 -->
+<form class="form-inline" method="post" id="myForm">
+<input type="hidden" name="id" value="{$assign['id']}">
+    <table class="table table-striped table-bordered table-hover table-condensed">       
+        <tr>
+        	<th width="10%"><font color="red">*</font>商户名称</th>
+            <td>
+            	<input class="form-control" type="text" name="name" value="{$assign['name']}" >
+            </td>
+        </tr>
+        
+        <tr>    
+        	<th>商户负责人</th>
+            <td>
+            	<input class="form-control"  type="text" name="principal" value="{$assign['principal']}">
+            </td>
+        </tr>
+        <tr>    
+            <th>联系电话</th>
+            <td>
+            	<input class="form-control" type="text" name="phone" value="{$assign['phone']}">
+            </td>
+        </tr>
+        <tr>    
+        	<th>品类</th>
+            <td>
+	            <select name="category" class="form-control">
+		            <volist name=":C('BUSINESS_CATEGORY_CONFIG')" id="vo">
+		   				<option value="{$key}" <eq name="key" value="$assign['category']">selected</eq>>{$vo}</option>
+					</volist>  
+	            </select>
+            </td>
+         </tr>
+        <tr>   
+            <th>店铺类型</th>
+            <td>
+            	<select name="type" class="form-control" >
+            		<option value="1" <eq name="type" value="1">selected</eq>>单店</option>
+            		<option value="2" <eq name="type" value="2">selected</eq>>连锁总店</option>
+            		<option value="3" <eq name="type" value="3">selected</eq>>连锁分店</option>
+            	</select>
+            </td>
+         </tr>
+        <tr>   
+            <th>商区</th>
+            <td>
+            	<select name="district" class="form-control">
+		            <volist name=":C('ACTIVITY_AREA_CONFIG')" id="vo">
+		   				<option value="{$key}" <eq name="key" value="$assign['district']">selected</eq>>{$vo}</option>
+					</volist>  
+	            </select>
+            </td>
+        </tr>
+        <tr>    
+        	<th>商户地址</th>
+            <td>
+            	<input class="form-control"  type="text" name="address" style="width:50%;" value="{$assign['address']}" >
+            </td>
+        </tr>
+        <tr>  
+        	<th>商户经度</th>
+            <td><input class="form-control" type="text" name="lng" value="{$assign['lng']}"></td>
+        </tr>
+        <tr>
+        	<th>商户纬度</th>
+            <td><input class="form-control" type="text" name="lat" value="{$assign['lat']}"></td>
+        </tr>
+        
+        <tr>
+            <td colspan="2" style="text-align: center;">
+            	<input class="btn btn-success" type="submit" value="&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            	<a class="btn btn-success" href="javascript:history.go(-1);">&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;</a>
+            </td>
+        </tr>
+    </table>
+</form>
+<bootstrapjs />
+<icheckjs color="blue" />
+<datejs />
+<script type="text/javascript">
+$("#myForm").validate({ 
+	rules: {
+		name: {
+			required: true			
+		}
+	}, 
+	messages: { 		
+		name: { 
+			required: "必填"
+		}
+	} 
+});	
+</script>
+</body>
+</html>

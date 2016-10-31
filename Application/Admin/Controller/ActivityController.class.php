@@ -96,22 +96,12 @@ class ActivityController extends AdminBaseController{
     	$list = $activityModel->where($where)->order('create_time desc')->limit($page->firstRow.','.$page->listRows)->select();
     	//分页链接
     	$show = $page->show();
-    	 
-    	//获取管理员id集合
-    	$uids = D('AuthGroupAccess')->getUidsByGroupId(array('NEQ',1));
-    	 
-    	//键值重复反转，去重
-    	$uids = array_flip($uids);
-    	$uids = array_flip($uids);
-    	 
-    	//获取列表管理员姓名组
-    	$user_list = D('Users')->field('id,nikename')->where(array('id'=>array('IN',$uids)))->select();
-    	$userList = array();
-    	foreach ($user_list as $row)
-    	{
-    		$userList[$row['id']] = $row['nikename'];
-    	}
-    	 
+    	
+    	
+    	//获取推广部下的所有员工姓名组
+    	$userList = D('Users')->getUidsBySectorId(2);
+    	
+    	
     	$activity_area = C('ACTIVITY_AREA_CONFIG');
     	$activity_duration = C('ACTIVITY_DURATION_CONFIG');
     	foreach ($list as $k=>$row)
