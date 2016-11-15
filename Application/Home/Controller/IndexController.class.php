@@ -31,7 +31,14 @@ class IndexController extends HomeBaseController{
                 	'data_range'=> $data['data_range'],
                 	'sector_id'=>$sector_id	
                     );
-                $this->success('登录成功、前往管理后台',U('Admin/Index/index'));
+             
+                if(is_mobile()){
+                	$this->success('登录成功',U('Api/Index/index'));
+                }
+                else
+                {
+                	$this->success('登录成功、前往管理后台',U('Admin/Index/index'));
+                } 
             }
         }else{
             $data=check_login() ? $_SESSION['user']['username'].'已登录' : '未登录';

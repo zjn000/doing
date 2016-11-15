@@ -16,7 +16,9 @@ class ActivityModel extends BaseModel{
         array('modify_uid','get_uid',2,'function') , // 对modify_uid字段在更新的时候使get_uid函数处理
         array('activity_leader','get_nikename',1,'function') , // 对activity_leader字段在新增的时候使get_nikename函数处理
         array('activity_date','strtotime',1,'function') , // 对activity_date字段在新增的时候使strtotime函数处理
+        array('activity_edate','strtotime',1,'function') , // 对activity_edate字段在新增的时候使strtotime函数处理
         array('activity_date','strtotime',2,'function') , // 对activity_date字段在更新的时候使strtotime函数处理
+        array('activity_edate','strtotime',2,'function') , // 对activity_edate字段在更新的时候使strtotime函数处理
         array('create_time','time',1,'function'), // 对date字段在新增的时候写入当前时间戳
         array('modify_time','time',2,'function'), // 对date字段在更新的时候写入当前时间戳
     );
@@ -70,7 +72,7 @@ class ActivityModel extends BaseModel{
      */
 	public function getAllData($map)
 	{
-		$result = $this->field(array('id','activity_leader_id','create_time','modify_uid','modify_time'),true)->where($map)->select();
+		$result = $this->field(array('id','activity_leader_id','activity_period','activity_duration','create_time','modify_uid','modify_time'),true)->where($map)->select();
 		return $result;
 	}
 

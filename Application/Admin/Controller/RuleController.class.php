@@ -267,6 +267,7 @@ class RuleController extends AdminBaseController{
         	$data[$key]['status'] = $row['status'] == 1 ? '允许' : '禁止登录';
         }
         
+        krsort($data);
         
         $assign=array(
             'data'=>$data
@@ -358,10 +359,10 @@ class RuleController extends AdminBaseController{
             }
              
             
-            $data['status'] = isset($data['status']) ? $data['status'] : 0;
-            $data['data_range'] = isset($data['data_range']) ? $data['data_range'] : 0;
-            $data['region'] = isset($data['region']) ? $data['region'] : 0;
-
+           $data['status'] = isset($data['status']) ? $data['status'] : 0;
+           $data['data_range'] = isset($data['data_range']) ? $data['data_range'] : 0;
+           $data['region'] = isset($data['region']) ? $data['region'] : 0;
+           
             $result=D('Users')->editData($map,$data);
             if($result){
                 // 操作成功
@@ -389,7 +390,7 @@ class RuleController extends AdminBaseController{
             
             //部门集合
             $sectorList = D('Sector')->field('id,name')->select();
-            
+                                 
             $assign=array(
             	'sectorList' => $sectorList,
             	'sector_id' => $sector_id,	

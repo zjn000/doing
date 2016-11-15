@@ -39,11 +39,7 @@ class ActivityController extends AdminBaseController{
     		$where['activity_leader_id'] = $data['activity_leader_id'];
     		$where_parameter['activity_leader_id'] = $data['activity_leader_id'];
     	}
-    	//活动时段：上午，下午，晚上
-    	if(!empty($data['activity_period'])){
-    		$where['activity_period'] = $data['activity_period'];
-    		$where_parameter['activity_period'] = $data['activity_period'];
-    	}
+    	
     	//商家名称
     	if(!empty($data['business_name']) ){
     		$where['business_name'] = array('LIKE','%'.$data['business_name'].'%');
@@ -59,11 +55,7 @@ class ActivityController extends AdminBaseController{
     		$where['activity_area'] = $data['activity_area'];
     		$where_parameter['activity_area'] = $data['activity_area'];
     	}
-    	//活动时长：三小时，四小时
-    	if(!empty($data['activity_duration'])){
-    		$where['activity_duration'] = $data['activity_duration'];
-    		$where_parameter['activity_duration'] = $data['activity_duration'];
-    	}
+    	
     	//活动方式
     	if(!empty($data['activity_mode'])){
     		$where['activity_mode'] = array('LIKE','%'.$data['activity_mode'].'%');
@@ -77,7 +69,7 @@ class ActivityController extends AdminBaseController{
     	}
     	//只有结束日期
     	if( empty($data['start_date']) && !empty($data['end_date'])){
-    		$where['activity_date'] = array('ELT',strtotime($data['end_date']));
+    		$where['activity_date'] = array('ELT',strtotime($data['end_date'].' 23:59:59'));
     		$where_parameter['end_date'] = $data['end_date'];
     	}
     	//开始日期-结束日期
@@ -85,7 +77,7 @@ class ActivityController extends AdminBaseController{
     	{
     		$where_parameter['start_date'] = $data['start_date'];
     		$where_parameter['end_date'] = $data['end_date'];
-    		$where['activity_date'] = array(array('EGT',strtotime($data["start_date"])),array('ELT',strtotime($data["end_date"])),'AND');
+    		$where['activity_date'] = array(array('EGT',strtotime($data["start_date"])),array('ELT',strtotime($data["end_date"].' 23:59:59')),'AND');
     	}
     	 
     	$count = $activityModel->where($where)->count();
@@ -107,12 +99,7 @@ class ActivityController extends AdminBaseController{
     	foreach ($list as $k=>$row)
     	{
     		$list[$k]['activity_date'] = $row['activity_date'] == 0 ? '' : date("Y-m-d",$row['activity_date']);
-    		$list[$k]['activity_area'] = $activity_area[$row['activity_area']];
-    		$list[$k]['activity_duration'] = $activity_duration[$row['activity_duration']];
-    		//$list[$k]['new_user_number'] = $row['new_user_number'] == 0 ? '' : $row['new_user_number'];
-    		//$list[$k]['old_user_number'] = $row['old_user_number'] == 0 ? '' : $row['old_user_number'];
-    		//$list[$k]['flyer_number'] = $row['flyer_number'] == 0 ? '' : $row['flyer_number'];
-    		//$list[$k]['poster_number'] = $row['poster_number'] == 0 ? '' : $row['poster_number'];
+    		$list[$k]['activity_area'] = $activity_area[$row['activity_area']];    		 		
     	}
     	 
     	 
@@ -178,7 +165,8 @@ class ActivityController extends AdminBaseController{
     		
     		$assign = M('Activity')->find($id);
     	
-    		$assign['activity_date'] = date('Y-m-d',$assign['activity_date']);
+    		$assign['activity_date'] = date('Y-m-d H:i:s',$assign['activity_date']);
+    		$assign['activity_edate'] = date('Y-m-d H:i:s',$assign['activity_edate']);
     		
     		$this->assign('assign',$assign);
     		$this->display();
@@ -208,10 +196,7 @@ class ActivityController extends AdminBaseController{
     	if(!empty($data['activity_leader_id'])){
     		$where['activity_leader_id'] = $data['activity_leader_id'];
     	}
-    	//活动时段：上午，下午，晚上
-    	if(!empty($data['activity_period'])){
-    		$where['activity_period'] = $data['activity_period'];
-    	}
+    	
     	//商家名称
     	if(!empty($data['business_name']) ){
     		$where['business_name'] = array('LIKE','%'.$data['business_name'].'%');
@@ -224,27 +209,24 @@ class ActivityController extends AdminBaseController{
     	if(!empty($data['activity_area'])){
     		$where['activity_area'] = $data['activity_area'];
     	}
-    	//活动时长：三小时，四小时
-    	if(!empty($data['activity_duration'])){
-    		$where['activity_duration'] = $data['activity_duration'];
-    	}
+    	
     	//活动方式
     	if(!empty($data['activity_mode'])){
     		$where['activity_mode'] = array('LIKE','%'.$data['activity_mode'].'%');
     	}
     	 
-    	//只有开始日期
+    	//只有开始时间
     	if(!empty($data['start_date']) && empty($data['end_date'])){
     		$where['activity_date'] = array('EGT',strtotime($data['start_date']));
     	}
-    	//只有结束日期
+    	//只有结束时间
     	if( empty($data['start_date']) && !empty($data['end_date'])){
-    		$where['activity_date'] = array('ELT',strtotime($data['end_date']));
+    		$where['activity_date'] = array('ELT',strtotime($data['end_date'].' 23:59:59'));
     	}
-    	//开始日期-结束日期
+    	//开始时间-结束时间
     	if(!empty($data['start_date']) && !empty($data['end_date']))
     	{
-    		$where['activity_date'] = array(array('EGT',strtotime($data["start_date"])),array('ELT',strtotime($data["end_date"])),'AND');
+    		$where['activity_date'] = array(array('EGT',strtotime($data["start_date"])),array('ELT',strtotime($data["end_date"].' 23:59:59')),'AND');
     	}
     	
     	
@@ -256,30 +238,20 @@ class ActivityController extends AdminBaseController{
     	
     	foreach ($list as $k=>$row)
     	{
-    		$list[$k]['activity_date'] = $row['activity_date'] == 0 ? '' : date("Y-m-d",$row['activity_date']);
+    		$list[$k]['activity_date'] = $row['activity_date'] == 0 ? '' : date("Y-m-d H:i:s",$row['activity_date']);
+    		$list[$k]['activity_edate'] = $row['activity_edate'] == 0 ? '' : date("Y-m-d H:i:s",$row['activity_edate']);
     		$list[$k]['activity_area'] = $activity_area[$row['activity_area']];
-    		$list[$k]['activity_duration'] = $activity_duration[$row['activity_duration']];
-    		$list[$k]['activity_period'] = $activity_period[$row['activity_period']];
-    		//$list[$k]['new_user_number'] = $row['new_user_number'] == 0 ? '' : $row['new_user_number'];
-    		//$list[$k]['old_user_number'] = $row['old_user_number'] == 0 ? '' : $row['old_user_number'];
-    		//$list[$k]['flyer_number'] = $row['flyer_number'] == 0 ? '' : $row['flyer_number'];
-    		//$list[$k]['poster_number'] = $row['poster_number'] == 0 ? '' : $row['poster_number'];
-    		//$list[$k]['part_number'] = $row['part_number'] == 0 ? '' : $row['part_number'];
-    		//$list[$k]['gift_number'] = $row['gift_number'] == 0 ? '' : $row['gift_number'];
-    		//$list[$k]['part_time'] = $row['part_time'] == 0 ? '' : $row['part_time'];
-    		//$list[$k]['staff_costs'] = $row['staff_costs'] == 0 ? '' : $row['staff_costs'];
     	}
     	   	
     	
     	$arrHead = array(
     		'activity_name' => '活动名称',
             'activity_location' => '活动地点',
-            'activity_period' => '活动时段',
-            'activity_date' => '活动日期',
+            'activity_date' => '活动开始时间',
+            'activity_edate' => '活动结束时间',
             'activity_leader' => '活动负责人',
             'activity_mode' => '活动方式',
             'activity_area' => '所属区域',
-            'activity_duration' => '活动时长',
             'business_deals' => '商家优惠',
             'business_name' => '商家名称',
             'business_address' => '商家地址',
