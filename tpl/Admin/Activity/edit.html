@@ -34,30 +34,19 @@
             </td>
         </tr>
         <tr>
-        	<th>活动日期</th>
-            <td><input class="form-control" type="text" value="{$assign['activity_date']}" name="activity_date" onclick="laydate()"></td>
+        	<th>活动开始时间</th>
+            <td><input class="form-control" type="text" id="activity_date" value="{$assign['activity_date']}" name="activity_date" /></td>
         
-        	<th>活动时段</th>
+        	<th>活动结束时间</th>
             <td>
-            <select name="activity_period" class="form-control">
-	            <volist name=":C('ACTIVITY_PERIOD_CONFIG')" id="vo">
-	   				<option value="{$key}" <eq name="key" value="$assign['activity_period']">selected</eq> >{$vo}</option>
-				</volist>  
-            </select>
+            	<input class="form-control" type="text" id="activity_edate" name="activity_edate" value="{$assign['activity_edate']}" />
             </td>
         </tr>
         <tr>
         	<th>活动方式</th>
             <td><input class="form-control" type="text" name="activity_mode" value="{$assign['activity_mode']}"></td>
         
-        	<th>活动时长</th>
-            <td>
-            <select name="activity_duration" class="form-control">
-	            <volist name=":C('ACTIVITY_DURATION_CONFIG')" id="vo">
-	   				<option value="{$key}" <eq name="key" value="$assign['activity_duration']">selected</eq> >{$vo}</option>
-				</volist>  
-            </select>
-            </td>
+        	
         </tr>
         <tr>
         	<th>商家优惠</th>
@@ -135,7 +124,30 @@ $("#myForm").validate({
 			required: "必填"
 		}
 	} 
-});	
+});
+var start = {
+	    elem: '#activity_date',
+	    format: 'YYYY-MM-DD hh:mm:ss',
+	    istoday: true,
+	    istime: true,
+	    start: laydate.now(),
+	    choose: function(datas){
+	         end.min = datas; //开始日选好后，重置结束日的最小日期
+	         end.start = datas //将结束日的初始值设定为开始日
+	    }
+};
+var end = {
+	    elem: '#activity_edate',
+	    format: 'YYYY-MM-DD hh:mm:ss',
+	    istoday: true,
+	    istime: true,
+	    start: laydate.now(),
+	    choose: function(datas){
+	        start.max = datas; //结束日选好后，重置开始日的最大日期
+	    }
+};
+laydate(start);
+laydate(end);
 </script>
 </body>
 </html>

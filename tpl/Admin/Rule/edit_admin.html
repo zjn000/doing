@@ -57,11 +57,10 @@
         <tr>
             <th>数据范围</th>
             <td>
-            	<span class="inputword">局部</span>
-                <input class="xb-icheck" type="radio" name="data_range" value="0" <eq name="user_data['data_range']" value="0"> checked="checked" </eq> >
-                &emsp;
-                <span class="inputword">全局</span>
-                <input class="xb-icheck" type="radio" name="data_range" value="1" <eq name="user_data['data_range']" value="1"> checked="checked" </eq> >                               
+            	<select name="data_range" class="form-control" id="data_range">
+                	<option value="0" <eq name="user_data['data_range']" value="0">selected</eq>  >局部</option>
+                	<option value="1" <eq name="user_data['data_range']" value="1">selected</eq>  >全局</option>
+            	</select>
             </td>
         </tr>
         <tr>
@@ -95,11 +94,10 @@
         <tr>
             <th>状态</th>
             <td>
-                <span class="inputword">允许登录</span>
-                <input class="xb-icheck" type="radio" name="status" value="1" <eq name="user_data['status']" value="1"> checked="checked" </eq> >
-                &emsp;
-                <span class="inputword">禁止登录</span>
-                <input class="xb-icheck" type="radio" name="status" value="0" <eq name="user_data['status']" value="0"> checked="checked" </eq> >
+            	<select name="status" class="form-control" id="status">
+                	<option value="1" <eq name="user_data['status']" value="1">selected</eq>  >允许登录</option>
+                	<option value="0" <eq name="user_data['status']" value="0">selected</eq>  >禁止登录</option>
+            	</select>
             </td>
         </tr>
         <tr>

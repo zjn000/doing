@@ -32,21 +32,6 @@
 					</foreach>
         		</select>
         	</td>
-        	<th width="10%">活动时段</th>
-        	<td width="15%">
-        		<select name="activity_period" class="form-control">
-	            <volist name=":C('ACTIVITY_PERIOD_CONFIG')" id="vo">
-	   				<option value="{$key}" <eq name="key" value='$Think.get.activity_period'>selected</eq> >{$vo}</option>
-				</volist>  
-            </select>
-        	
-        	</td>
-        </tr>
-        <tr>
-        	<th width="10%">商家名称</th>
-        	<td width="15%"><input class="form-control" type="text" name="business_name" value="{$Think.get.business_name}"></td>
-        	<th width="10%">商家优惠</th>
-        	<td width="15%"><input class="form-control" type="text" name="business_deals" value="{$Think.get.business_deals}"></td>
         	<th width="10%">所属区域</th>
         	<td width="15%">
         		<select name="activity_area" class="form-control">
@@ -55,23 +40,23 @@
 				</volist>  
             	</select>
             </td>
-        	<th width="10%">活动时长</th>
-        	<td width="15%">
-        		<select name="activity_duration" class="form-control">
-	            <volist name=":C('ACTIVITY_DURATION_CONFIG')" id="vo">
-	   				<option value="{$key}" <eq name="key" value='$Think.get.activity_duration'>selected</eq> >{$vo}</option>
-				</volist>  
-            	</select>
-        	</td>
         </tr>
         <tr>
+        	<th width="10%">商家名称</th>
+        	<td width="15%"><input class="form-control" type="text" name="business_name" value="{$Think.get.business_name}"></td>
+        	<th width="10%">商家优惠</th>
+        	<td width="15%"><input class="form-control" type="text" name="business_deals" value="{$Think.get.business_deals}"></td>
         	<th width="10%">活动方式</th>
-        	<td width="15%"><input class="form-control" type="text" name="activity_mode" value="{$Think.get.activity_mode}"></td>
+        	<td width="15%" colspan="4"><input class="form-control" type="text" name="activity_mode" value="{$Think.get.activity_mode}"></td>
+        	
+        </tr>
+        <tr>
+        	
         	<th width="10%">开始日期</th>
         	<td width="15%"><input class="form-control" type="text" id="start_date"  name="start_date" value="{$Think.get.start_date}" ></td>
         	<th width="10%">结束日期</th>
         	<td width="15%"><input class="form-control" type="text" id="end_date" name="end_date" value="{$Think.get.end_date}"  ></td>
-        	<th width="25%" colspan="2"><input class="btn btn-success" type="submit" value="&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp; "></th>
+        	<th width="25%" colspan="4" ><input style="width: 120px;" class="btn btn-success" type="submit" value="&nbsp;&nbsp;查&nbsp;&nbsp;询&nbsp;&nbsp; "></th>
         	
         </tr>
     </table>
@@ -91,11 +76,9 @@
         						'activity_name'=>$_GET['activity_name'],
         						'activity_location'=>$_GET['activity_location'],
         						'activity_leader_id'=>$_GET['activity_leader_id'],
-        						'activity_period'=>$_GET['activity_period'],
         						'business_name'=>$_GET['business_name'],
         						'business_deals'=>$_GET['business_deals'],
         						'activity_area'=>$_GET['activity_area'],
-        						'activity_duration'=>$_GET['activity_duration'],
         						'activity_mode'=>$_GET['activity_mode'],
         						'start_date'=>$_GET['start_date'],
         						'end_date'=>$_GET['end_date']        						
