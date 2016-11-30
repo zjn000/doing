@@ -161,14 +161,14 @@
                 <a href="{:U('Admin/Business/edit',array('id'=>$vo['id']))}">编辑</a>&emsp;
                 
                 <php>if(checkAuthShow('Admin/Visits/add')){ </php>
-                <a href="{:U('Admin/Visits/add',array('id'=>$vo['id'],'shop_name'=>$vo['name']))}">添加拜访</a>&emsp;
+                <a href="{:U('Admin/Visits/add',array('id'=>$vo['id'],'shop_name'=>trim($vo['name'])))}">添加拜访</a>&emsp;
                	<php>}
                		if(checkAuthShow('Admin/VisitsPlan/add')){ 
                	</php>
-                <a href="{:U('Admin/VisitsPlan/add',array('id'=>$vo['id'],'shop_name'=>$vo['name']))}">添加拜访计划</a>&emsp;
+                <a href="{:U('Admin/VisitsPlan/add',array('id'=>$vo['id'],'shop_name'=>trim($vo['name'])))}">添加拜访计划</a>&emsp;
                	<php>} </php>
-                <a href="{:U('Admin/Business/new_contract',array('id'=>$vo['id'],'shop_name'=>$vo['name']))}">新签</a>&emsp;
-                <a href="{:U('Admin/Business/renewal_contract',array('id'=>$vo['id'],'shop_name'=>$vo['name']))}">续签</a>
+                <a href="{:U('Admin/Business/new_contract',array('id'=>$vo['id'],'shop_name'=>trim($vo['name'])))}">新签</a>&emsp;
+                <a href="{:U('Admin/Business/renewal_contract',array('id'=>$vo['id'],'shop_name'=>trim($vo['name'])))}">续签</a>
             </td>
         </tr>
 	</volist>          

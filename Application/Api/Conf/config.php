@@ -3,19 +3,7 @@ return array(
 //*************************************附加设置***********************************
     'TMPL_ACTION_ERROR'      => THINK_PATH . 'Tpl/dispatch_jump.tpl', // 默认错误跳转对应的模板文件
     'TMPL_ACTION_SUCCESS'    => THINK_PATH . 'Tpl/dispatch_jump.tpl', // 默认成功跳转对应的模板文件
-	//活动时段参数配置	
-	'ACTIVITY_PERIOD_CONFIG' => array(
-			0 => '',
-			1 => '上午',
-			2 => '下午',
-			3 => '晚上'
-	),
-	//活动时长参数配置
-	'ACTIVITY_DURATION_CONFIG' => array(
-			0 => '',
-			1 => '三小时',
-			2 => '四小时'
-	),
+	
 	//活动所属区域参数配置	
 	'ACTIVITY_AREA_CONFIG' => array(
 			0 => '',
@@ -27,45 +15,11 @@ return array(
 			6 => '棉城',
 			7 => '大客户'
 	),
-	//角色所属大区参数配置	
-	'USER_REGION_CONFIG' => array(
-			0 => '',
-			1 => '市区',
-			2 => '澄海',
-			3 => '潮阳'
-	),
-	//签约状态	
-	'CONTRACT_STATUS_CONFIG' => array(
-			0 => '',
-			1 => '未签约',
-			2 => '新签',
-			3 => '续签'
-	),
-	//三证齐全状态值
-	'PROVE_CONFIG' => array(
-			0 => '',
-			1 => '是',
-			2 => '否'
-	),
-	//即将到期商家
-	'EXPIRING_CONFIG' => array(
-			0 => '',
-			1 => '7天内',
-			2 => '一个月内',
-			3 => '三个月内'
-	),
-	//商家套餐类型
-	'PACKAGE_TYPE_CONFIG' => array(
-			0 => '',
-			1 => '1888半年',
-			2 => '3688一年',
-			3 => '抽点'
-	),
 	//商家品类
 	'BUSINESS_CATEGORY_CONFIG' => array(
 			0 => '',
 			1 => '面包蛋糕',
-			2 => '小吃零食',
+			2 => '小吃零食',			
 			3 => '烧烤麻辣烫',
 			4 => '汉堡披萨',
 			5 => '寿司',
