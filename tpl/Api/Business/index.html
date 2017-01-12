@@ -99,17 +99,17 @@
 					<volist name="list['data']" id="vo">
 					<div class="list-group-item" style="background-color: #EAEAEA;">
 						<table style="width: 100%;">
+							
 							<tr>
-								<td>{$vo.name}</td>
-								<td></td>
+								<td colspan="2"><a href="{:U('Api/Business/edit',array('id'=>$vo['id']))}">{$vo.name}</a></td>
 							</tr>
+							
 							<tr>
 								<td>{$vo.address}</td>
 								<td style="float: right;"><button type="button" class="btn btn-primary btn-sm" onclick="location='{:U('Api/Visits/add',array('id'=>$vo['id'],'shop_name'=>trim($vo['name'])))}'">添加拜访</button></td>
 							</tr>
 							<tr>
-								<td>{$vo.principal}&emsp;{$vo.phone}</td>
-								<td></td>
+								<td  colspan="2">{$vo.principal}&emsp;{$vo.phone}</td>
 							</tr>
 						</table>
 					</div>

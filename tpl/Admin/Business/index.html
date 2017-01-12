@@ -131,6 +131,7 @@
 </ul>
 <table class="table table-striped table-bordered table-hover table-condensed">
     <tr>
+        <th>编号id</th>
         <th width="10%">商家名称</th>
         <th>商区</th>
         <th>地址</th>
@@ -146,6 +147,7 @@
     </tr>
     <volist name="list" id="vo" empty="$empty" >
 		<tr>
+            <td>{$vo.id}</td>
             <td>{$vo.name}</td>
             <td>{$vo.district}</td>
             <td>{$vo.address}</td>
@@ -168,12 +170,57 @@
                 <a href="{:U('Admin/VisitsPlan/add',array('id'=>$vo['id'],'shop_name'=>trim($vo['name'])))}">添加拜访计划</a>&emsp;
                	<php>} </php>
                 <a href="{:U('Admin/Business/new_contract',array('id'=>$vo['id'],'shop_name'=>trim($vo['name'])))}">新签</a>&emsp;
-                <a href="{:U('Admin/Business/renewal_contract',array('id'=>$vo['id'],'shop_name'=>trim($vo['name'])))}">续签</a>
+                <a href="{:U('Admin/Business/renewal_contract',array('id'=>$vo['id'],'shop_name'=>trim($vo['name'])))}">续签</a>&emsp;
+				<php>if(checkAuthShow('Admin/Business/appoint')){ </php>
+                <a href="javascript:;" businessId="{$vo['id']}" businessCid="{$vo['create_id']}" businessName="{$vo['name']}"  onclick="edit(this)">指派</a>
+				<php>} </php>
             </td>
         </tr>
 	</volist>          
 </table>
  {$page}
+ 
+<!-- 修改菜单模态框开始 -->
+<div class="modal fade" id="bjy-edit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		 <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" id="myModalLabel">
+					指派商家：<font color="red" id="business-name"></font>
+				</h4>
+			</div>
+			<div class="modal-body">
+				<form id="bjy-form" class="form-inline" action="{:U('Admin/Business/appoint')}" method="post">
+					<input type="hidden" name="id">
+					<table class="table table-striped table-bordered table-hover table-condensed">
+						<tr>
+							<th width="15%"><font color="red">*</font>负责BD：</th>
+							<td>
+								<select class="form-control" name="create_id">
+				        			<foreach name="userList" item="vo">
+				    					<option value="{$key}" <eq name="key" value='$Think.get.create_id'>selected</eq>  >{$vo}</option>
+									</foreach>
+        						</select>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input class="btn btn-success" type="submit" value="修&emsp;改">
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 修改菜单模态框结束 --> 
+ 
+ 
 <bootstrapjs />
 <script type="text/javascript">
 var start = {
@@ -197,6 +244,19 @@ var end = {
 };
 laydate(start);
 laydate(end);
+
+//修改菜单
+function edit(obj){
+	var businessId=$(obj).attr('businessId');
+	var businessCid=$(obj).attr('businessCid');
+	var businessName=$(obj).attr('businessName');
+	$("input[name='id']").val(businessId);
+	$("select[name='create_id']").val(businessCid);
+	$('#business-name').text(businessName);
+	$('#bjy-edit').modal('show');
+}
+
+
 </script>
 <datejs />
 

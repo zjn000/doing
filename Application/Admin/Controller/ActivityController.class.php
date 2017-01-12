@@ -104,7 +104,7 @@ class ActivityController extends AdminBaseController{
     	 
     	 
     	
-    	$this->assign('empty',"<tr><td colspan='13'><span class='empty'>暂时没有数据</span></td></tr>"); //数据集为空时
+    	$this->assign('empty',"<tr><td colspan='14'><span class='empty'>暂时没有数据</span></td></tr>"); //数据集为空时
     	$this->assign('userList',$userList); //赋值活动负责人集合
     	$this->assign('page',$show);// 赋值分页输出
     	$this->assign('list',$list);// 赋值数据集

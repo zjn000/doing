@@ -24,7 +24,6 @@ class BusinessController extends PublicBaseController{
 			$where['name'] = array('LIKE','%'.$data['name'].'%');			
 		}
 		
-		$data = $businessModel->getById(18);
 		
 		$list = get_page_data($businessModel,$where,'create_time desc');
 		
@@ -55,6 +54,37 @@ class BusinessController extends PublicBaseController{
 	}
 	
 	
+	/**
+	 * 编辑
+	 */
+	public function edit(){
+		 
+		if(IS_POST){
 	
+			$data=I('post.');
+	
+			$map = array(
+					'id'=>$data['id']
+			);
+	
+			$result = D('Business')->editData($map,$data);
+	
+			if($result){
+				// 操作成功
+				$this->success('编辑成功',U('Api/Business/index'));
+			}else{
+				$error_word=D('Business')->getError();
+				// 操作失败
+				$this->error($error_word);
+			}
+	
+		}else{
+	
+			$id = I('get.id',0,'intval');
+			$assign = M('Business')->find($id);
+			$this->assign('assign',$assign);
+			$this->display();
+		}
+	}
 
 }

@@ -2,6 +2,129 @@
 
 header("Content-type:text/html;charset=utf-8");
 
+/**
+ * 数字转中文
+ * @param  $ns		数字
+ * @return mixed
+ */
+function cny($ns) {
+	static $cnums=array("零","壹","贰","叁","肆","伍","陆","柒","捌","玖"),
+	$cnyunits=array("圆","角","分"),
+	$grees=array("拾","佰","仟","万","拾","佰","仟","亿");
+	list($ns1,$ns2)=explode(".",$ns,2);
+	$ns2=array_filter(array($ns2[1],$ns2[0]));
+	$ret=array_merge($ns2,array(implode("",_cny_map_unit(str_split($ns1),$grees)),""));
+	$ret=implode("",array_reverse(_cny_map_unit($ret,$cnyunits)));
+	return str_replace(array_keys($cnums),$cnums,$ret);
+}
+
+function _cny_map_unit($list,$units) {
+	$ul=count($units);
+	$xs=array();
+	foreach (array_reverse($list) as $x) {
+		$l=count($xs);
+		if ($x!="0" || !($l%4)) $n=($x=='0'?'':$x).($units[($l-1)%$ul]);
+		else $n=is_numeric($xs[0][0])?$x:'';
+		array_unshift($xs,$n);
+	}
+	return $xs;
+}
+
+
+
+/**
+ * 上传证件图片
+ * @param string $path		保存路径
+ * @param string $subname	拓展子目录名
+ * @return array[]
+ */
+function post_certificate_upload($path='file',$subname=''){
+	ini_set('max_execution_time', '0');
+	// 去除两边的/
+	$path=trim($path,'/');
+	// 添加Upload根目录
+	$path=strtolower(substr($path, 0,6))==='upload' ? ucfirst($path) : 'Upload/'.$path;
+	
+	if(!empty($_FILES)){
+		// 上传文件配置
+		$config=array(
+				'maxSize'   =>  10485760,       //   上传文件最大为10M
+				'rootPath'  =>  './',           //文件上传保存的根路径
+				'savePath'  =>  './'.$path.'/',         //文件上传的保存路径（相对于根路径）
+				'saveName'  =>  array('uniqid',''),     //上传文件的保存规则，支持数组和字符串方式定义
+				'autoSub'   =>  true,                   //  自动使用子目录保存上传文件 默认为true
+				'subName'	=>	empty($subname) ? array('date', 'Y-m-d') : $subname,
+				'exts'    	=>  array('jpeg','png','jpg','bmp'),
+		);
+		// 实例化上传
+		$upload=new \Think\Upload($config);
+		// 调用上传方法
+		$info=$upload->upload();
+		$data=array();
+		if(!$info){
+			// 返回错误信息
+			$error=$upload->getError();
+			$data['error_info']=$error;
+			return $data;
+		}else{
+			// 返回成功信息
+			foreach($info as $key=>$file){
+				$data[$key]=trim($file['savepath'].$file['savename'],'.');
+			}
+			return $data;
+		}
+	}
+}
+
+
+
+
+/**
+ * 将base64图片数据流生成图片保存上传
+ * @param string $base64_image_content	base64图片数据流
+ * @param string $file_path	图片保存路径
+ * @param string $file_name	图片名（不带后缀）
+ * @return 图片路径   失败：false
+ */
+function base64_to_pic_upload($base64_image_content,$file_name='',$file_path='/Upload/')
+{
+	if(empty($base64_image_content))
+	{
+		return false;
+	}
+	
+	//匹配出图片的格式
+	if (preg_match('/^(data:\s*image\/(\w+);base64,)/', $base64_image_content, $result)){
+		$type = $result[2];
+		
+		//保存绝对路径
+		$absolute_path=BASE_PATH.$file_path;
+		
+		//文件夹是否创建
+		if(!file_exists($absolute_path))
+		{
+			//检查是否有该文件夹，如果没有就创建，并给予最高权限
+			mkdir($absolute_path,0777,true);
+		}
+		
+		
+		//默认图片名
+		$new_file_name = time().".{$type}";
+		
+		if(!empty($file_name))
+		{
+			$new_file_name = $file_name.".{$type}";
+		}
+		
+		//生成图片
+		if (file_put_contents($absolute_path.$new_file_name, base64_decode(str_replace($result[1], '', $base64_image_content)))){
+			return $file_path.$new_file_name;
+		}else{
+			return false;
+		}
+	}
+}
+
 //传递数据以易于阅读的样式格式化后输出
 function p($data){
     // 定义样式
@@ -17,6 +140,7 @@ function p($data){
     $str.=$show_data;
     $str.='</pre>';
     echo $str;
+    exit;
 }
 
 /**

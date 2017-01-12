@@ -77,7 +77,13 @@ class VisitsController extends PublicBaseController{
     }
     
     
-    
+    /**
+     * webuploader 上传文件
+     */
+    public function ajax_upload(){
+    	// 根据自己的业务调整上传路径、允许的格式、文件大小
+    	ajax_upload('/Upload/image/');
+    }
     
     
     /**
@@ -87,9 +93,7 @@ class VisitsController extends PublicBaseController{
     	if(IS_POST){
     		$data=I('post.');
     		
-    		//上传图片
-    		$img = post_upload('/Upload/image/');
-    		$data['picture'] = $img['name'];   	
+    		empty($data['picture']) && $this->error('图片未成功上传',U('Api/Business/index'));
     		
     		$result = D('Visits')->addData($data);
     		
@@ -131,13 +135,13 @@ class VisitsController extends PublicBaseController{
     			$this->error("超出当日限期，无法完成");
     			return;
     		}
-    		
+    		$data['modify_time']=$day;
     		$result = D('Visits')->editData($map,$data);
     		
     		if($result){
     			
     			//添加拜访结果后更新商户表最近拜访时间
-    			M('business')->where(array('id'=>$data['business_id']))->save(array('visitors_time'=>time()));
+    			M('business')->where(array('id'=>$data['business_id']))->save(array('visitors_time'=>$day));
     			
     			// 操作成功
     			$this->success('编辑成功',U('Api/Visits/index'));

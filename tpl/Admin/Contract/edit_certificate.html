@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+    <title>编辑证件</title>
+    <bootstrapcss />
+    <icheckcss />
+    <datejs />
+</head>
+<body id="xb-date">
+
+<!-- 导航栏开始 -->
+<div class="bjy-admin-nav">
+    <a href="{:U('Admin/Index/index')}" target="_parent"><i class="fa fa-home"></i> 首页</a>
+    &gt;
+   <a href="{:U('Admin/Contract/index')}" target="right_content">全部合同列表</a>
+    &gt;
+    编辑证件
+</div>
+<!-- 导航栏结束 -->
+<form class="form-inline" method="post" id="myForm" enctype="multipart/form-data">
+<input type="hidden" name="id" value="{$assignContract['id']}">
+<input type="hidden" name="certificate_id" value="{$assign['id']}">
+    <table class="table table-striped table-bordered table-hover table-condensed">       
+        <tr>
+        	<th width="10%"><h4>{$assignContract['b_name']}</h4></th>
+            <td>
+            	<h4>{$assignContract['protocol_number']}</h4>
+            </td>
+        </tr>
+        
+        <tr>    
+        	<th><font color="red">*</font>营业执照</th>
+            <td>
+            	<a href="__ROOT__{$assign['business_license']}" target="_bank"><img src="__ROOT__{$assign['business_license']}" height="80" width="80"/></a>
+            	<input class="form-control"  type="file" name="business_license" accept="image/png,image/jpeg" />
+            </td>
+        </tr>
+        <tr>    
+        	<th><font color="red">*</font>身份证正面</th>
+            <td>
+            	<a href="__ROOT__{$assign['id_card_positive']}" target="_bank"><img src="__ROOT__{$assign['id_card_positive']}" height="80" width="80" /></a>
+            	<input class="form-control"  type="file" name="id_card_positive" accept="image/png,image/jpeg"  />
+            </td>
+        </tr>
+        
+        <tr>
+        	<th><font color="red">*</font>身份证反面</th>
+        	<td>
+        		<a href="__ROOT__{$assign['id_negative']}" target="_bank"><img src="__ROOT__{$assign['id_negative']}" height="80" width="80" /></a>
+        		<input class="form-control"  type="file"  name="id_negative" accept="image/png,image/jpeg"  />
+        	</td>
+        </tr>
+        <tr>
+        	<th><font color="red">*</font>店面照</th>
+        	<td>
+        		<a href="__ROOT__{$assign['shop_photo']}" target="_bank"><img src="__ROOT__{$assign['shop_photo']}" height="80" width="80" /></a>
+        		<input class="form-control"  type="file"  name="shop_photo" accept="image/png,image/jpeg" />
+        	</td>
+        </tr>
+        <tr>    
+            <th><font color="red">*</font>店内环境</th>
+            <td>
+            	<a href="__ROOT__{$assign['shop_environment']}" target="_bank"><img src="__ROOT__{$assign['shop_environment']}" height="80" width="80" /></a>
+            	<input class="form-control" type="file" name="shop_environment" accept="image/png,image/jpeg" />
+            </td>
+        </tr>
+        <tr>    
+            <th>食品经营许可证</th>
+            <td>
+            	<notempty name="assign['food_license']">
+            	<a href="__ROOT__{$assign['food_license']}" target="_bank"><img src="__ROOT__{$assign['food_license']}" height="80" width="80" /></a>
+            	</notempty>
+            	<input class="form-control" type="file" name="food_license" accept="image/png,image/jpeg" />
+            </td>
+        </tr>
+        <tr>    
+            <th>厨房照</th>
+            <td>
+            	<notempty name="assign['kitchen_photo']">
+            	<a href="__ROOT__{$assign['kitchen_photo']}" target="_bank"><img src="__ROOT__{$assign['kitchen_photo']}" height="80" width="80" /></a>
+            	</notempty>
+            	<input class="form-control" type="file" name="kitchen_photo" accept="image/png,image/jpeg" />
+            </td>
+        </tr>
+        <tr>    
+            <th>烟草/酒类</th>
+            <td>
+            	<notempty name="assign['tobacco_alcohol']">
+            	<a href="__ROOT__{$assign['tobacco_alcohol']}" target="_bank"><img src="__ROOT__{$assign['tobacco_alcohol']}" height="80" width="80" /></a>
+            	</notempty>
+            	<input class="form-control" type="file" name="tobacco_alcohol" accept="image/png,image/jpeg" />
+            </td>
+        </tr>
+        <tr>    
+            <th>其它</th>
+            <td>
+            	<notempty name="assign['other_photo']">
+            	<a href="__ROOT__{$assign['other_photo']}" target="_bank"><img src="__ROOT__{$assign['other_photo']}" height="80" width="80"/></a>
+            	</notempty>
+            	<input class="form-control" type="file" name="other_photo" accept="image/png,image/jpeg" />
+            </td>
+        </tr>
+        
+        
+        <tr>
+            <td colspan="2" style="text-align: center;">
+            	<input class="btn btn-success" type="submit" value="&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            	<a class="btn btn-success" href="javascript:history.go(-1);">&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;</a>
+            </td>
+        </tr>
+    </table>
+</form>
+<bootstrapjs />
+<icheckjs color="blue" />
+<datejs />
+</body>
+</html>

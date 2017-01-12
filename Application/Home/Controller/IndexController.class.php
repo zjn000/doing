@@ -33,6 +33,15 @@ class IndexController extends HomeBaseController{
                     );
              
                 if(is_mobile()){
+                	
+                	$auth=new \Think\Auth();
+                	$result=$auth->check('Api/Index/index',$_SESSION['user']['id']);
+                	
+                	if(!$result){
+                		session('user',null);
+                		$this->error('您没有权限访问',U('Home/Index/index'));
+                	}
+                	
                 	$this->success('登录成功',U('Api/Index/index'));
                 }
                 else

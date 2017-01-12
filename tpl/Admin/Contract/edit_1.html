@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <title>编辑</title>
+    <bootstrapcss />
+    <icheckcss />
+    <datejs />
+</head>
+<body id="xb-date">
+
+<!-- 导航栏开始 -->
+<div class="bjy-admin-nav">
+    <a href="{:U('Admin/Index/index')}" target="_parent"><i class="fa fa-home"></i> 首页</a>
+    &gt;
+   <a href="{:U('Admin/Contract/index')}" target="right_content">全部合同列表</a>
+    &gt;
+    编辑
+</div>
+<!-- 导航栏结束 -->
+<form class="form-inline" method="post" id="myForm">
+<input type="hidden" name="id" value="{$assign['id']}">
+<input type="hidden" name="type" value="{$assign['type']}">
+    <table class="table table-striped table-bordered table-hover table-condensed">       
+        <tr>
+        	<th width="10%">签约类型</th>
+            <td>
+            	<select name="signed_type" class="form-control" required>
+		            <volist name=":C('SIGNED_TYPE_CONFIG')" id="vo">
+		   				<option value="{$key}" <eq name="key" value="$assign['signed_type']">selected</eq> >{$vo}</option>
+					</volist>  
+	            </select>
+            </td>
+        </tr>
+        
+        <tr>    
+        	<th>商户名称</th>
+            <td>
+            	<input class="form-control"  type="text" name="b_name" value="{$assign['b_name']}"  required />
+            </td>
+        </tr>
+        <tr>    
+        	<th>商户地址</th>
+            <td>
+            	<input class="form-control"  type="text" name="b_address" value="{$assign['b_address']}" required />
+            </td>
+        </tr>
+        
+        <tr>
+        	<th>服务开始日期</th>
+        	<td><input class="form-control"  type="date" id="service_start_time" name="service_start_time" value="{$assign['service_start_time']}" required></td>
+        </tr>
+        <tr>
+        	<th>服务结束日期</th>
+        	<td><input class="form-control"  type="date" id="service_end_time" name="service_end_time" value="{$assign['service_end_time']}" required></td>
+        </tr>
+        
+        
+        <tr>    
+            <th>服务月数</th>
+            <td>
+            	<input class="form-control" type="text" name="service_month" value="{$assign['service_month']}"  />
+            </td>
+        </tr>
+        <tr>    
+            <th>终端机数</th>
+            <td>
+            	<input class="form-control" type="text" name="terminals_num" value="{$assign['terminals_num']}" />
+            </td>
+        </tr>
+        <tr>    
+            <th>服务项目</th>
+            <td>
+            	<input type="radio" value="1"  name="service_items" <eq name="assign['service_items']" value="1">checked="checked"</eq> />新签&emsp;&emsp;&emsp;
+            	<input type="radio" value="2"  name="service_items" <eq name="assign['service_items']" value="2">checked="checked"</eq> />改签
+            </td>
+        </tr>
+        <tr>    
+            <th>上线商品数量</th>
+            <td>
+            	<input type="radio" value="80"  name="online_goods_num" <eq name="assign['online_goods_num']" value="80">checked="checked"</eq> />80&emsp;&emsp;&emsp;&emsp;
+            	<input type="radio" value="150"  name="online_goods_num" <eq name="assign['online_goods_num']" value="150">checked="checked"</eq> />150
+            </td>
+        </tr>
+        <tr>    
+            <th>服务费预充值</th>
+            <td>
+            	<select name="service_pre_charge" class="form-control" required>
+            		<option value="500" <eq name="assign['service_pre_charge']" value="500">selected</eq> >500</option>
+            		<option value="1000" <eq name="assign['service_pre_charge']" value="1000">selected</eq> >1000</option>
+            		<option value="2000" <eq name="assign['service_pre_charge']" value="2000">selected</eq> >2000</option>
+            		<option value="3000" <eq name="assign['service_pre_charge']" value="3000">selected</eq> >3000</option>
+            		<option value="4000" <eq name="assign['service_pre_charge']" value="4000">selected</eq> >4000</option>
+            		<option value="5000" <eq name="assign['service_pre_charge']" value="5000">selected</eq> >5000</option>
+            	</select>
+            </td>
+        </tr>
+        <tr>    
+        	<th>商家类别</th>
+            <td>
+	            <select name="b_category" class="form-control" required >
+		            <volist name=":C('MERCHANT_CATEGORIES_CONFIG')" id="vo">
+		   				<option value="{$key}" <eq name="key" value="$assign['b_category']">selected</eq> >{$vo.title}</option>
+					</volist>  
+	            </select>
+            </td>
+         </tr>
+         
+         <tr>    
+            <th>付款方式</th>
+            <td>
+            	<input type="radio" value="1"  name="pay_method" <eq name="assign['pay_method']" value="1">checked="checked"</eq> />现金&emsp;&emsp;&emsp;
+            	<input type="radio" value="2"  name="pay_method" <eq name="assign['pay_method']" value="2">checked="checked"</eq> />转账
+            </td>
+        </tr>
+        
+        <tr>    
+            <th>线上支付</th>
+            <td>
+            	<input type="radio" value="1"  name="online_pay" <eq name="assign['online_pay']" value="1">checked="checked"</eq> />开通&emsp;&emsp;&emsp;
+            	<input type="radio" value="2"  name="online_pay" <eq name="assign['online_pay']" value="2">checked="checked"</eq> />不开通
+            </td>
+        </tr>
+        
+        <tr>    
+            <th>是否收费</th>
+            <td>
+            	<input type="radio" value="1"  name="is_toll" <eq name="assign['is_toll']" value="1">checked="checked"</eq> />已收费&emsp;&emsp;
+            	<input type="radio" value="2"  name="is_toll" <eq name="assign['is_toll']" value="2">checked="checked"</eq> />未收费
+            </td>
+        </tr>
+        
+        <tr>
+            <td colspan="2" style="text-align: center;">
+            	<input class="btn btn-success" type="submit" value="&nbsp;&nbsp;提&nbsp;&nbsp;交&nbsp;&nbsp;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            	<a class="btn btn-success" href="javascript:history.go(-1);">&nbsp;&nbsp;取&nbsp;&nbsp;消&nbsp;&nbsp;</a>
+            </td>
+        </tr>
+    </table>
+</form>
+<bootstrapjs />
+<icheckjs color="blue" />
+<datejs />
+<script type="text/javascript">
+$("#myForm").validate({ 
+	rules: {
+		service_month: {
+			required: true,
+			digits:true
+		},
+		terminals_num: {
+			required: true,
+			digits:true
+		}
+	}, 
+	messages: { 		
+		service_month: { 
+			
+			digits:"只能输入整数"
+		},
+		terminals_num: { 
+			
+			digits:"只能输入整数"
+		}
+	} 
+});	
+</script>
+</body>
+</html>

@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0,user-scalable=0;" charset="UTF-8">
 <title>添加拜访</title>
 <link href="__ADMIN_ACEADMIN__/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="__ADMIN_ACEADMIN__/css/font-awesome.min.css" />
 <link rel="stylesheet" href="__PUBLIC__/statics/font-awesome-4.4.0/css/font-awesome.min.css" />
 <script src="__PUBLIC__/statics/js/jquery-1.10.2.min.js"></script>
 <script src="__ADMIN_ACEADMIN__/js/bootstrap.min.js"></script>
+<webuploadercss/>
+<webuploaderjs/>
 <script src="__PUBLIC__/statics/js/jquery.validate.min.js"></script>
+
 </head>
 <body >
 <div class="container">
@@ -49,14 +52,14 @@
 				        <tr>
 				        	<th>门头照</th>
 				            <td>
-				            	<input type="file" class="form-control" name="picture" />
+				            	<uploadpic name="picture" url="{:U('Api/Visits/ajax_upload')}" word="" />
 				            </td>
 				        </tr>
 				        
 				        
 				        <tr>
 				            <td colspan="2" style="text-align: center;">
-				            	<button type="submit" class="btn btn-block btn-lg btn-info">提交</button>
+				            	<button type="submit" class="btn btn-block btn-lg btn-info"  onclick="this.disabled=true;this.form.submit()">提交</button>
 				            </td>
 				        </tr>
 				    </table>
@@ -65,7 +68,6 @@
 		</div>
 	</div>
 </div>
-
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=58ea793d0469703127eb9377134c3080"></script>
 <script type="text/javascript" src="http://developer.baidu.com/map/jsdemo/demo/convertor.js"></script>
 <script>

@@ -151,7 +151,7 @@ class BusinessController extends AdminBaseController{
     		
     	}
     	
-    	$this->assign('empty',"<tr><td colspan='12'><span class='empty'>暂时没有数据</span></td></tr>"); //数据集为空时
+    	$this->assign('empty',"<tr><td colspan='13'><span class='empty'>暂时没有数据</span></td></tr>"); //数据集为空时
     	$this->assign('userList',$userList); //赋值负责BD集合
     	$this->assign('page',$show);// 赋值分页输出
     	$this->assign('list',$list);// 赋值数据集
@@ -535,4 +535,31 @@ class BusinessController extends AdminBaseController{
     }
     
     
+    
+    /**
+     * 指派人员
+     */
+    public function appoint()
+    {
+    	if(IS_POST){
+    	
+    		$data=I('post.');
+    	
+    		$map = array(
+    			'id'=>$data['id']
+    		);
+    	
+    		$result = D('Business')->editData($map,$data);
+    	
+    		if($result){
+    			// 操作成功
+    			$this->success('指派成功',U('Admin/Business/index'));
+    		}else{
+    			$error_word=D('Business')->getError();
+    			// 操作失败
+    			$this->error($error_word);
+    		}
+    	
+    	}
+    }
 }

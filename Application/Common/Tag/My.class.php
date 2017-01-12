@@ -25,7 +25,8 @@ class My extends TagLib {
         'umeditorjs'=>array('attr'=>'','close'=>0),
         'umeditor'=>array('attr'=>'name,content,height','close'=>0),
         'webuploadercss'=>array('attr'=>'','close'=>0),
-        'webuploader'=>array('attr'=>'name,url,word','close'=>0),
+        'webuploader'=>array('attr'=>'name,url,word','close'=>0),       
+        'uploadpic'=>array('attr'=>'name,url','close'=>0),
         'webuploaderjs'=>array('attr'=>'','close'=>0),
         );
 
@@ -288,7 +289,273 @@ php;
     }
 
     /**
-     * 上传标签
+     * 单张图片上传标签
+     * @param string $tag  
+     * url：上传的图片处理的控制器方法   
+     * name：表单name   
+     * word：提示文字
+     */
+    public function _uploadpic($tag){
+		$url=isset($tag['url'])?$tag['url']:U('Home/Index/ajax_upload');
+        $name=isset($tag['name'])?$tag['name']:'file_name';       
+        $id_name='upload-'.uniqid();
+            $str=<<<php
+<div id="$id_name" class="xb-uploader">
+    <div class="queueList">
+        <div class="placeholder">
+            <div class="filePicker"></div>           
+        </div>
+    </div>
+    <div class="statusBar" style="display:none;">
+        <div class="progress">
+            <span class="text">0%</span>
+            <span class="percentage"></span>
+        </div>             
+    </div>
+</div>
+<script>
+jQuery(function() {
+    var \$ = jQuery,    // just in case. Make sure it's not an other libaray.
+
+        \$wrap = \$("#$id_name"),
+
+        // 图片容器
+        \$queue = \$('<ul class="filelist"></ul>')
+            .appendTo( \$wrap.find('.queueList') ),
+
+        // 状态栏，包括进度和控制按钮
+        \$statusBar = \$wrap.find('.statusBar'),
+
+        // 没选择文件之前的内容。
+        \$placeHolder = \$wrap.find('.placeholder'),
+
+        // 总体进度条
+        \$progress = \$statusBar.find('.progress').hide(),
+
+        // 添加的文件数量
+        fileCount = 0,
+
+        // 添加的文件总大小
+        fileSize = 0,
+
+        // 优化retina, 在retina下这个值是2
+        ratio = window.devicePixelRatio || 1,
+
+        // 缩略图大小
+        thumbnailWidth = 110 * ratio,
+        thumbnailHeight = 110 * ratio,
+
+        // 可能有pedding, ready, uploading, confirm, done.
+        state = 'pedding',
+
+        // 所有文件的进度信息，key为file id
+        percentages = {},
+
+        supportTransition = (function(){
+            var s = document.createElement('p').style,
+                r = 'transition' in s ||
+                      'WebkitTransition' in s ||
+                      'MozTransition' in s ||
+                      'msTransition' in s ||
+                      'OTransition' in s;
+            s = null;
+            return r;
+        })(),
+        thisSuccess,
+        // WebUploader实例
+        uploader;
+
+    if ( !WebUploader.Uploader.support() ) {
+        alert( 'Web Uploader 不支持您的浏览器！如果你使用的是IE浏览器，请尝试升级 flash 播放器');
+        throw new Error( 'WebUploader does not support the browser you are using.' );
+    }
+
+    // 实例化
+    uploader = WebUploader.create({
+       
+    	auto:true,
+        
+        pick: {
+            id: "#$id_name .filePicker",
+            label: '点击选择文件',
+            multiple:false
+        },
+        dnd: "#$id_name .queueList",
+        paste: document.body,
+        
+        accept: {
+             title: 'Images',
+             extensions: 'jpg,jpeg,png',
+             mimeTypes: 'image/jpg,image/jpeg,image/png'
+        },
+        
+        // swf文件路径
+        swf: BASE_URL + '/Uploader.swf',
+
+        disableGlobalDnd: true,
+
+        chunked: true,
+        server: "$url",
+        fileNumLimit: 300,
+        fileSizeLimit: 200 * 1024 * 1024,    // 200 M
+        fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
+    });
+    
+    // 当有文件添加进来时执行，负责view的创建
+    function addFile( file ) {
+        var \$li = \$( '<li id="' + file.id + '">' +
+                '<p class="title">' + file.name + '</p>' +
+                '<p class="imgWrap"></p>'+
+                '<p class="progress"><span></span></p>' +
+                '<input class="bjy-filename" type="hidden" name="{$name}">'+
+                '</li>' ),           
+            \$prgress = \$li.find('p.progress span'),
+            \$wrap = \$li.find( 'p.imgWrap' ),
+            \$info = \$('<p class="error"></p>'),
+
+            showError = function( code ) {
+                switch( code ) {
+                    case 'exceed_size':
+                        text = '文件大小超出';
+                        break;
+
+                    case 'interrupt':
+                        text = '上传暂停';
+                        break;
+					case 'invalid':
+                		text = '上传图片不合格';
+                		break;
+                    default:
+                        text = '上传失败，请重试';
+                        break;
+                }
+
+                \$info.text( text ).appendTo( \$li );
+            };
+
+        if ( file.getStatus() === 'invalid' ) {
+            showError( 'invalid' );
+        } else {
+            // @todo lazyload
+            \$wrap.text( '预览中' );
+            uploader.makeThumb( file, function( error, src ) {
+                if ( error ) {
+                    \$wrap.text( '不能预览' );
+                    return;
+                }
+
+                var img = \$('<img src="'+src+'">');
+                \$wrap.empty().append( img );
+            }, thumbnailWidth, thumbnailHeight );
+
+            percentages[ file.id ] = [ file.size, 0 ];
+            file.rotation = 0;
+        }
+
+        file.on('statuschange', function( cur, prev ) {
+            if ( prev === 'progress' ) {
+                \$prgress.hide().width(0);
+            } else if ( prev === 'queued' ) {
+                \$li.off( 'mouseenter mouseleave' );
+                
+            }
+
+            // 成功
+            if ( cur === 'error' || cur === 'invalid' ) {
+                showError( file.statusText );
+                percentages[ file.id ][ 1 ] = 1;
+            } else if ( cur === 'interrupt' ) {
+                showError( 'interrupt' );
+            } else if ( cur === 'queued' ) {
+                percentages[ file.id ][ 1 ] = 0;
+            } else if ( cur === 'progress' ) {
+                \$prgress.css('display', 'block');
+            } else if ( cur === 'complete' ) {
+                \$li.append( '<span class="success"></span>' );
+            }
+
+            \$li.removeClass( 'state-' + prev ).addClass( 'state-' + cur );
+        });
+
+        \$li.appendTo( \$queue );
+    }
+
+    // 负责view的销毁
+    function removeFile( file ) {
+        var \$li = \$('#'+file.id);
+
+        delete percentages[ file.id ];
+        updateTotalProgress();
+        \$li.off().find('.file-panel').off().end().remove();
+    }
+
+    function updateTotalProgress() {
+        var loaded = 0,
+            total = 0,
+            spans = \$progress.children(),
+            percent;
+		\$progress.show();
+                		
+        \$.each( percentages, function( k, v ) {
+            total += v[ 0 ];
+            loaded += v[ 0 ] * v[ 1 ];
+        } );
+
+        percent = total ? loaded / total : 0;
+		
+        spans.eq( 0 ).text( Math.round( percent * 100 ) + '%' );
+        spans.eq( 1 ).css( 'width', Math.round( percent * 100 ) + '%' );
+    }
+
+    uploader.onUploadAccept=function(object ,ret){
+        if(ret.error_info){
+            fileError=ret.error_info;
+            return false;
+        }
+    }
+
+    uploader.onUploadSuccess=function(file ,response){
+        \$('#'+file.id +' .bjy-filename').val(response.name)
+    }
+    uploader.onUploadError=function(file){
+        alert(fileError);
+    }
+
+    uploader.onUploadProgress = function( file, percentage ) {
+        var \$li = \$('#'+file.id),
+            \$percent = \$li.find('.progress span');
+
+        \$percent.css( 'width', percentage * 100 + '%' );
+        percentages[ file.id ][ 1 ] = percentage;
+        updateTotalProgress();
+    };
+
+    uploader.onFileQueued = function( file ) {
+        fileCount++;
+        fileSize += file.size;
+
+        if ( fileCount === 1 ) {
+            \$placeHolder.addClass( 'element-invisible' );
+            \$statusBar.show();
+        }
+
+        addFile( file );
+        updateTotalProgress();
+       	
+    };
+    uploader.onError = function( code ) {
+        alert( 'Eroor: ' + code );
+    };
+
+    updateTotalProgress();
+});
+</script>
+php;
+        return $str;
+    }
+    
+    /**
+     * 上传标签（多张）
      * @param string $tag  
      * url：上传的图片处理的控制器方法   
      * name：表单name   

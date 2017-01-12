@@ -113,6 +113,7 @@
 <icheckjs color="blue" />
 <script type="text/javascript">
 $(function(){
+	$("#sector option[value='']").attr("selected",true);
 	 $('#sector').change(function(){
          var value = $(this).val();
          $.ajax({
