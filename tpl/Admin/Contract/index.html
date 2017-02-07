@@ -111,6 +111,7 @@
         <th width="10%">商家名称</th>
         <th>协议编号</th>
         <th>合同类型</th>
+        <th>签约类型</th>
         <th>签订日期</th>
         <th>负责BD</th>
         <th>收费状态</th>
@@ -126,6 +127,7 @@
             <td>{$vo.b_name}</td>
             <td>{$vo.protocol_number}</td>
             <td>{$vo.type}</td>
+            <td>{$vo.signed_type_name}</td>
             <td>{$vo.create_time}</td>
             <td>{$vo.nikename}</td>
             <td>{$vo.is_toll_title}</td>
@@ -135,7 +137,9 @@
             <td>{$vo.service_end_time}</td>
             <td>
             	<php>if(checkAuthShow('Admin/Contract/edit')){ </php>
+            	<neq name="vo['status']" value="1">
                 <a href="{:U('Admin/Contract/edit',array('id'=>$vo['id']))}">编辑</a>&emsp;
+                </neq>
                 <php>} </php>
                 
                 <a href="{:U('Admin/Contract/view_contract',array('id'=>$vo['id']))}" target="_bank">查看合同</a>&emsp;
@@ -152,11 +156,11 @@
                 </eq>
 				<php>if(checkAuthShow('Admin/Contract/ustatus')){ </php>
 				<eq name="vo['status']" value="0">
-					<gt name="vo['certificate_id']" value="0">
-						<eq name="vo['is_toll']" value="1">
-		                	<a href="javascript:;" contractId="{$vo['id']}" businessName="{$vo['b_name']}"  onclick="edit(this)">审核操作</a>
-		                </eq>
-	                </gt>
+					<eq name="vo['is_toll']" value="1">
+						<if condition="($vo.certificate_id gt 0) OR ($vo.signed_type gt 1) ">
+			                <a href="javascript:;" contractId="{$vo['id']}" businessName="{$vo['b_name']}"  onclick="edit(this)">审核操作</a>
+		                </if>
+	                </eq>
 	            </eq>
 				<php>} </php>
             </td>

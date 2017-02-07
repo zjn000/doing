@@ -16,14 +16,26 @@ class ContractController extends PublicBaseController{
 	
 	public function search()
 	{
-		
 		$contractModel = D('Contract');
 		
 		$data = I('get.');
+		
+		
+		//判断显示局部数据还是全部
+		if(empty($_SESSION['user']['data_range']))
+		{
+			$where['create_id'] = $_SESSION['user']['id'];
+		}
+		
+		
+		
 		//商家名称
 		if(!empty($data['b_name']) ){
 			$where['b_name'] = array('LIKE','%'.$data['b_name'].'%');			
 		}
+		
+		
+		
 		
 		
 		$list = get_page_data($contractModel,$where,'create_time desc');
@@ -107,8 +119,8 @@ class ContractController extends PublicBaseController{
 					//赠送金额
 					$data['credit_amount'] = $pre_charge_credit_amount[$data['service_pre_charge']];
 						
-					//总额=预充值金额+赠送金额
-					$data['total'] = $data['service_pre_charge']+$data['credit_amount'];
+					//总额=预充值金额+保证金
+					$data['total'] = $data['service_pre_charge']+$data['bail'];
 						
 					//商家类别对应抽点
 					$data['b_category_point'] = C('MERCHANT_CATEGORIES_CONFIG')[$data['b_category']]['point'];
@@ -127,8 +139,8 @@ class ContractController extends PublicBaseController{
 					//赠送金额
 					$data['credit_amount'] = $pre_charge_credit_amount[$data['service_pre_charge']];
 			
-					//总额=预充值金额+赠送金额
-					$data['total'] = $data['service_pre_charge']+$data['credit_amount'];
+					//总额=预充值金额+保证金
+					$data['total'] = $data['service_pre_charge']+$data['bail'];
 			
 					//商家类别对应抽点
 					$data['b_category_point'] = C('MERCHANT_CATEGORIES_CONFIG')[$data['b_category']]['point'];
@@ -163,8 +175,8 @@ class ContractController extends PublicBaseController{
 					//保证金=终端机数*2000
 					$data['bail'] = $data['terminals_num']*2000;
 						
-					//套餐收费：1、全年套餐3688　2、半年套餐1888
-					$package_charges=array(1=>3688,2=>1888);
+					//套餐收费：1、全年套餐4888　2、半年套餐2688
+					$package_charges=array(1=>4888,2=>2688);
 					$data['package_charges'] = $package_charges[$data['service_items']];
 			
 					//总额 = 服务费

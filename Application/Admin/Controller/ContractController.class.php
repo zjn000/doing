@@ -125,10 +125,12 @@ class ContractController extends AdminBaseController{
     	
     	//配置数据
     	$contractTypeList = C('CONTRACT_TYPE_CONFIG');
+    	$signedTypeList = C('SIGNED_TYPE_CONFIG');
     	
     	foreach ($list as $key=>$row)
     	{
      		$list[$key]['type'] = $contractTypeList[$row['type']];
+     		$list[$key]['signed_type_name'] = $signedTypeList[$row['signed_type']];
      		$list[$key]['nikename'] = $userList[$row['create_id']];
      		$list[$key]['create_time'] = $row['create_time'] > 0 ? date('Y-m-d',$row['create_time']) : '';
      		$list[$key]['status_name'] = $row['status'] == 0 ? '待审核' : ($row['status'] == 1 ? '有效归档' : '无效作废');
@@ -151,7 +153,7 @@ class ContractController extends AdminBaseController{
 	{
 		$contractModel = D('Contract');
 		 
-		$where = array('status'=>0,'is_toll'=>1,'certificate_id'=>array('GT',0));
+		$where = array('status'=>0,'is_toll'=>1,array('_logic'=>'or','certificate_id'=>array('GT',0),'signed_type' => array('GT',1)));
 		 
 		$count = $contractModel->where($where)->count();
 		 
@@ -170,10 +172,12 @@ class ContractController extends AdminBaseController{
 		 
 		//配置数据
 		$contractTypeList = C('CONTRACT_TYPE_CONFIG');
-		 
+		$signedTypeList = C('SIGNED_TYPE_CONFIG');
+		
 		foreach ($list as $key=>$row)
 		{
 			$list[$key]['type'] = $contractTypeList[$row['type']];
+			$list[$key]['signed_type_name'] = $signedTypeList[$row['signed_type']];
 			$list[$key]['nikename'] = $userList[$row['create_id']];
 			$list[$key]['create_time'] = $row['create_time'] > 0 ? date('Y-m-d',$row['create_time']) : '';
 			$list[$key]['status_name'] = $row['status'] == 0 ? '待审核' : ($row['status'] == 1 ? '有效归档' : '无效作废');
@@ -223,8 +227,8 @@ class ContractController extends AdminBaseController{
 					//赠送金额
 					$data['credit_amount'] = $pre_charge_credit_amount[$data['service_pre_charge']];
 						
-					//总额=预充值金额+赠送金额
-					$data['total'] = $data['service_pre_charge']+$data['credit_amount'];
+					//总额=预充值金额+保证金
+					$data['total'] = $data['service_pre_charge']+$data['bail'];
 						
 					//商家类别对应抽点
 					$data['b_category_point'] = C('MERCHANT_CATEGORIES_CONFIG')[$data['b_category']]['point'];
@@ -243,8 +247,8 @@ class ContractController extends AdminBaseController{
 					//赠送金额
 					$data['credit_amount'] = $pre_charge_credit_amount[$data['service_pre_charge']];
 			
-					//总额=预充值金额+赠送金额
-					$data['total'] = $data['service_pre_charge']+$data['credit_amount'];
+					//总额=预充值金额+保证金
+					$data['total'] = $data['service_pre_charge']+$data['bail'];
 			
 					//商家类别对应抽点
 					$data['b_category_point'] = C('MERCHANT_CATEGORIES_CONFIG')[$data['b_category']]['point'];
@@ -278,8 +282,8 @@ class ContractController extends AdminBaseController{
 					//保证金=终端机数*2000
 					$data['bail'] = $data['terminals_num']*2000;
 						
-					//套餐收费：1、全年套餐3688　2、半年套餐1888
-					$package_charges=array(1=>3688,2=>1888);
+					//套餐收费：1、全年套餐4888　2、半年套餐2688
+					$package_charges=array(1=>4888,2=>2688);
 					$data['package_charges'] = $package_charges[$data['service_items']];
 			
 					//总额 = 服务费
@@ -476,7 +480,6 @@ class ContractController extends AdminBaseController{
 				return;
 			}
 			
-			
 			$data = M('certificate')->find($certificate_id);
 			
 			$picData = post_certificate_upload("/Upload/contract/certificate/{$id}/",$id);
@@ -486,7 +489,6 @@ class ContractController extends AdminBaseController{
 				$this->error($picData['error_info'],U('Admin/Contract/index'));
 				return;
 			}
-			
 			
 			$certificateModel = D('Certificate');
 			
