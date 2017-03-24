@@ -113,9 +113,6 @@ class ContractController extends PublicBaseController{
 				//抽点新
 				case 1:
 						
-					//保证金=终端机数*2000
-					$data['bail'] = $data['terminals_num']*2000;
-						
 					//赠送金额
 					$data['credit_amount'] = $pre_charge_credit_amount[$data['service_pre_charge']];
 						
@@ -133,8 +130,6 @@ class ContractController extends PublicBaseController{
 					//该合同类型终端机数默认为1
 					$data['terminals_num'] = 1;
 						
-					//保证金=终端机数*2000
-					$data['bail'] = $data['terminals_num']*2000;
 			
 					//赠送金额
 					$data['credit_amount'] = $pre_charge_credit_amount[$data['service_pre_charge']];
@@ -150,9 +145,6 @@ class ContractController extends PublicBaseController{
 					//套餐新
 				case 3:
 						
-					//保证金=终端机数*2000
-					$data['bail'] = $data['terminals_num']*2000;
-						
 					//套餐收费：1、全年套餐4888　2、半年套餐2688
 					$package_charges=array(1=>4888,2=>2688);
 					
@@ -161,19 +153,12 @@ class ContractController extends PublicBaseController{
 					//总额 = 服务费
 					$data['total'] = $data['service_charge'];
 						
-						
-						
-						
-						
 					break;
 			
 					//套餐老
 				case 4:
 					//该合同类型终端机数默认为1
 					$data['terminals_num'] = 1;
-			
-					//保证金=终端机数*2000
-					$data['bail'] = $data['terminals_num']*2000;
 						
 					//套餐收费：1、全年套餐4888　2、半年套餐2688
 					$package_charges=array(1=>4888,2=>2688);

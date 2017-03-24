@@ -60,6 +60,7 @@ u {
   overflow: hidden;
 }
 .page .top > h4 {
+  overflow: hidden;
   position: relative;
   margin-top: 0;
   text-align: center;
@@ -67,10 +68,7 @@ u {
   font-weight: 700;
 }
 .page .top > h4 p:last-child {
-  position: absolute;
-  margin: 0;
-  right: 0;
-  bottom: 0;
+  float: right;
   font-size: 12px;
   border-bottom: 1px solid #000;
 }
@@ -85,7 +83,7 @@ u {
 }
 .page .top > dl > dt {
   display: inline-block;
-  width: 72px;
+  width: 75px;
 }
 .page .top > dl > dd {
   display: inline-block;

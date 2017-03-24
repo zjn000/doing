@@ -63,6 +63,12 @@
             </td>
         </tr>
         <tr>    
+            <th>保证金</th>
+            <td>
+            	<input class="form-control" type="text" name="bail" value="{$assign['bail']}"  />
+            </td>
+        </tr>
+        <tr>    
             <th>服务项目</th>
             <td>
             	<input type="radio" value="1"  name="service_items" <eq name="assign['service_items']" value="1">checked="checked"</eq> />全年套餐&emsp;&emsp;&emsp;
@@ -173,10 +179,18 @@ $("#myForm").validate({
 		service_month: {
 			required: true,
 			digits:true
+		},
+		bail: {
+			required: true,
+			digits:true
 		}
 	}, 
 	messages: { 		
 		service_month: { 
+			
+			digits:"只能输入整数"
+		},		
+		bail: { 
 			
 			digits:"只能输入整数"
 		}		

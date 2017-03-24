@@ -264,7 +264,7 @@ class RuleController extends AdminBaseController{
         foreach ($data as $key=>$row)
         {
         	$data[$key]['sector'] = $sectorModel->getNameByGroupId($row['group_id']);
-        	$data[$key]['status'] = $row['status'] == 1 ? '允许' : '禁止登录';
+        	$data[$key]['status'] = $row['status'] == 1 ? '允许' : ($row['status'] == 0 ? '禁止登录' : '软删除');
         }
         
         krsort($data);

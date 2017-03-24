@@ -53,6 +53,7 @@ u {
   overflow: hidden;
 }
 .page .top > h4 {
+  overflow: hidden;
   position: relative;
   margin-top: 0;
   text-align: center;
@@ -60,10 +61,7 @@ u {
   font-weight: 700;
 }
 .page .top > h4 p:last-child {
-  position: absolute;
-  margin: 0;
-  right: 0;
-  bottom: 0;
+  float: right;
   font-size: 12px;
   border-bottom: 1px solid #000;
 }
@@ -78,7 +76,7 @@ u {
 }
 .page .top > dl > dt {
   display: inline-block;
-  width: 72px;
+  width: 75px;
 }
 .page .top > dl > dd {
   display: inline-block;
@@ -130,6 +128,7 @@ u {
   display: inline;
 }
 .page .reset-table2 {
+  position: relative;
   font-size: 13px;
 }
 .page .reset-table2 tr:first-child td:first-child {
@@ -140,10 +139,12 @@ u {
   border: 1px solid #000;
 }
 .page .reset-table1 {
+  position: relative;
   text-align: center;
   font-size: 13px;
 }
 .page .reset-table1 tr:first-child td {
+  border: 2px solid #000;
   background-color: #fac090;
   font-weight: 700;
 }
@@ -162,8 +163,11 @@ u {
 .page .reset-table1 td {
   vertical-align: middle;
   border: 1px solid #000;
+  border: 2px solid #000;
+
 }
 .page .reset-table {
+  position: relative;
   font-size: 13px;
 }
 .page .reset-table tr:nth-child(2) {

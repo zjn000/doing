@@ -108,6 +108,13 @@ class ContractController extends AdminBaseController{
     	}
     	
     	
+    	//到账状态
+    	if(!empty($data['has_arrived']) ){
+    		$where['has_arrived'] = $data['has_arrived'];
+    		$where_parameter['has_arrived'] = $data['has_arrived'];
+    	}
+    	
+    	
     	$count = $contractModel->where($where)->count();
     	
     	$page = new_page($count,15,$where_parameter);
@@ -133,18 +140,68 @@ class ContractController extends AdminBaseController{
      		$list[$key]['signed_type_name'] = $signedTypeList[$row['signed_type']];
      		$list[$key]['nikename'] = $userList[$row['create_id']];
      		$list[$key]['create_time'] = $row['create_time'] > 0 ? date('Y-m-d',$row['create_time']) : '';
-     		$list[$key]['status_name'] = $row['status'] == 0 ? '待审核' : ($row['status'] == 1 ? '有效归档' : '无效作废');
+     		$list[$key]['status_name'] = $row['status'] == 0 ? '待审核' : ($row['status'] == 1 ? '有效归档' : '无效退回');
      		$list[$key]['is_toll_title'] = $row['is_toll'] == 1 ? '已收费' : '未收费';
+     		$list[$key]['has_arrived_title'] = $row['has_arrived'] == 1 ? '已到账' : '未到账';
      		$list[$key]['certificate'] = $row['certificate_id'] > 0 ? '已上传' : '未上传';
     	}
     	
-    	$this->assign('empty',"<tr><td colspan='12'><span class='empty'>暂时没有数据</span></td></tr>"); //数据集为空时
+    	$this->assign('empty',"<tr><td colspan='14'><span class='empty'>暂时没有数据</span></td></tr>"); //数据集为空时
     	$this->assign('userList',$userList); //赋值负责BD集合
     	$this->assign('page',$show);// 赋值分页输出
     	$this->assign('list',$list);// 赋值数据集
 		$this->display('Contract/index');
 	}
     
+	
+	
+	/**
+	 * 待收账
+	 */
+	public function pending_account()
+	{
+		$contractModel = D('Contract');
+			
+		$where = array('has_arrived'=>2,'status'=>0,'is_toll'=>1);
+			
+		$count = $contractModel->where($where)->count();
+			
+		$page = new_page($count,15);
+			
+		//获取列表数据
+		$list = $contractModel->where($where)->order('create_time desc')->limit($page->firstRow.','.$page->listRows)->select();
+			
+			
+		//分页链接
+		$show = $page->show();
+			
+		//获取销售部下的所有员工姓名组
+		$userList = D('Users')->getUidsBySectorId(3);
+			
+			
+		//配置数据
+		$contractTypeList = C('CONTRACT_TYPE_CONFIG');
+		$signedTypeList = C('SIGNED_TYPE_CONFIG');
+	
+		foreach ($list as $key=>$row)
+		{
+			$list[$key]['type'] = $contractTypeList[$row['type']];
+			$list[$key]['signed_type_name'] = $signedTypeList[$row['signed_type']];
+			$list[$key]['nikename'] = $userList[$row['create_id']];
+			$list[$key]['create_time'] = $row['create_time'] > 0 ? date('Y-m-d',$row['create_time']) : '';
+			$list[$key]['status_name'] = $row['status'] == 0 ? '待审核' : ($row['status'] == 1 ? '有效归档' : '无效退回');
+			$list[$key]['is_toll_title'] = $row['is_toll'] == 1 ? '已收费' : '未收费';
+			$list[$key]['has_arrived_title'] = $row['has_arrived'] == 1 ? '已到账' : '未到账';
+			$list[$key]['certificate'] = $row['certificate_id'] > 0 ? '已上传' : '未上传';
+		}
+			
+		$this->assign('empty',"<tr><td colspan='14'><span class='empty'>暂时没有数据</span></td></tr>"); //数据集为空时
+		$this->assign('userList',$userList); //赋值负责BD集合
+		$this->assign('page',$show);// 赋值分页输出
+		$this->assign('list',$list);// 赋值数据集
+		$this->display('Contract/pending_account');
+	}
+	
 	
 	/**
 	 * 待审核列表
@@ -153,11 +210,11 @@ class ContractController extends AdminBaseController{
 	{
 		$contractModel = D('Contract');
 		 
-		$where = array('status'=>0,'is_toll'=>1,array('_logic'=>'or','certificate_id'=>array('GT',0),'signed_type' => array('GT',1)));
+		$where = array('has_arrived'=>1,'status'=>0,'is_toll'=>1,array('_logic'=>'or','certificate_id'=>array('GT',0),'signed_type' => array('GT',1)));
 		 
 		$count = $contractModel->where($where)->count();
 		 
-		$page = new_page($count,15,$where);
+		$page = new_page($count,15);
 		 
 		//获取列表数据
 		$list = $contractModel->where($where)->order('create_time desc')->limit($page->firstRow.','.$page->listRows)->select();
@@ -180,17 +237,19 @@ class ContractController extends AdminBaseController{
 			$list[$key]['signed_type_name'] = $signedTypeList[$row['signed_type']];
 			$list[$key]['nikename'] = $userList[$row['create_id']];
 			$list[$key]['create_time'] = $row['create_time'] > 0 ? date('Y-m-d',$row['create_time']) : '';
-			$list[$key]['status_name'] = $row['status'] == 0 ? '待审核' : ($row['status'] == 1 ? '有效归档' : '无效作废');
+			$list[$key]['status_name'] = $row['status'] == 0 ? '待审核' : ($row['status'] == 1 ? '有效归档' : '无效退回');
 			$list[$key]['is_toll_title'] = $row['is_toll'] == 1 ? '已收费' : '未收费';
+			$list[$key]['has_arrived_title'] = $row['has_arrived'] == 1 ? '已到账' : '未到账';
 			$list[$key]['certificate'] = $row['certificate_id'] > 0 ? '已上传' : '未上传';
 		}
 		 
-		$this->assign('empty',"<tr><td colspan='12'><span class='empty'>暂时没有数据</span></td></tr>"); //数据集为空时
+		$this->assign('empty',"<tr><td colspan='14'><span class='empty'>暂时没有数据</span></td></tr>"); //数据集为空时
 		$this->assign('userList',$userList); //赋值负责BD集合
 		$this->assign('page',$show);// 赋值分页输出
 		$this->assign('list',$list);// 赋值数据集
 		$this->display('Contract/pending_index');
 	}
+	
 	
 	
 	/**
@@ -221,9 +280,6 @@ class ContractController extends AdminBaseController{
 				//抽点新
 				case 1:
 						
-					//保证金=终端机数*2000
-					$data['bail'] = $data['terminals_num']*2000;
-						
 					//赠送金额
 					$data['credit_amount'] = $pre_charge_credit_amount[$data['service_pre_charge']];
 						
@@ -241,9 +297,6 @@ class ContractController extends AdminBaseController{
 					//该合同类型终端机数默认为1
 					$data['terminals_num'] = 1;
 						
-					//保证金=终端机数*2000
-					$data['bail'] = $data['terminals_num']*2000;
-			
 					//赠送金额
 					$data['credit_amount'] = $pre_charge_credit_amount[$data['service_pre_charge']];
 			
@@ -257,19 +310,12 @@ class ContractController extends AdminBaseController{
 						
 					//套餐新
 				case 3:
-						
-					//保证金=终端机数*2000
-					$data['bail'] = $data['terminals_num']*2000;
-						
 					//套餐收费：1、全年套餐4888　2、半年套餐2688
 					$package_charges=array(1=>4888,2=>2688);
 					$data['package_charges'] = $package_charges[$data['service_items']];
 						
 					//总额 = 服务费
 					$data['total'] = $data['service_charge'];
-						
-						
-						
 						
 						
 					break;
@@ -279,9 +325,6 @@ class ContractController extends AdminBaseController{
 					//该合同类型终端机数默认为1
 					$data['terminals_num'] = 1;
 			
-					//保证金=终端机数*2000
-					$data['bail'] = $data['terminals_num']*2000;
-						
 					//套餐收费：1、全年套餐4888　2、半年套餐2688
 					$package_charges=array(1=>4888,2=>2688);
 					$data['package_charges'] = $package_charges[$data['service_items']];
@@ -463,7 +506,6 @@ class ContractController extends AdminBaseController{
 		}
 	}
 	
-	
 	/**
 	 * 编辑证件
 	 */
@@ -551,14 +593,6 @@ class ContractController extends AdminBaseController{
 	
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
 	/**
 	 * 确认收费
 	 */
@@ -571,6 +605,26 @@ class ContractController extends AdminBaseController{
     	if($result){
     		// 操作成功
     		$this->success('收费已确认',U('Admin/Contract/index'));
+    	}else{
+    		$error_word=D('Contract')->getError();
+    		// 操作失败
+    		$this->error($error_word);
+    	}
+	}
+	
+	
+	/**
+	 * 确认到账
+	 */
+	public function confirm_account()
+	{
+		$data=I('get.');
+    	
+    	$result = D('Contract')->editData(array('id'=>$data['id']),array('id'=>$data['id'],'has_arrived'=>1));
+    	
+    	if($result){
+    		// 操作成功
+    		$this->success('已确认到账',U('Admin/Contract/pending_account'));
     	}else{
     		$error_word=D('Contract')->getError();
     		// 操作失败
@@ -682,6 +736,14 @@ class ContractController extends AdminBaseController{
 		if(!empty($data['signed_type']) ){
 			$where .= " AND co.signed_type={$data['signed_type']}";
 		}
+		
+		
+		//到账状态
+		if(!empty($data['has_arrived']) ){
+			$where .= " AND co.has_arrived={$data['has_arrived']}";
+		}
+		
+		
 		
 		$list=$contractModel
 			->field('co.b_name,

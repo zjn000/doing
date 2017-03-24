@@ -15,14 +15,19 @@ class AdminBaseController extends BaseController{
 		
 		check_login() === false && $this->error('您没有登录',U('Home/Index/index'));
 		
-		$result=$auth->check($rule_name,$_SESSION['user']['id']);
-		if(!$result){
-			$this->error('您没有权限访问');
+		//当权限节点为以下值时，不进行权限验证
+		$filterPermissions = array(
+			'Admin/Ads/view_ads'	//广告详情查看
+		);
+		
+		
+		if(!in_array($rule_name,$filterPermissions)){
+			$result=$auth->check($rule_name,$_SESSION['user']['id']);
+			if(!$result){
+				$this->error('您没有权限访问');
+			}
 		}
+		
 	}
 
-
-
-
 }
-

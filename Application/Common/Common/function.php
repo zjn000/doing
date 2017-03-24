@@ -51,7 +51,7 @@ function post_certificate_upload($path='file',$subname=''){
 				'maxSize'   =>  10485760,       //   上传文件最大为10M
 				'rootPath'  =>  './',           //文件上传保存的根路径
 				'savePath'  =>  './'.$path.'/',         //文件上传的保存路径（相对于根路径）
-				'saveName'  =>  array('uniqid',''),     //上传文件的保存规则，支持数组和字符串方式定义
+				'saveName'  =>  array('uniqid',array('', true)),     //上传文件的保存规则，支持数组和字符串方式定义
 				'autoSub'   =>  true,                   //  自动使用子目录保存上传文件 默认为true
 				'subName'	=>	empty($subname) ? array('date', 'Y-m-d') : $subname,
 				'exts'    	=>  array('jpeg','png','jpg','bmp'),
@@ -69,7 +69,8 @@ function post_certificate_upload($path='file',$subname=''){
 		}else{
 			// 返回成功信息
 			foreach($info as $key=>$file){
-				$data[$key]=trim($file['savepath'].$file['savename'],'.');
+				$data[$key] = trim(rtrim($file['savepath'],'/').'/'.$file['savename'],'.');
+				//$data[$key]=trim($file['savepath'].$file['savename'],'.');
 			}
 			return $data;
 		}

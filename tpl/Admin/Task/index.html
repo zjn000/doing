@@ -54,6 +54,7 @@
    <li>
         <a href="{:U('Admin/Task/add')}">添加</a>
     </li>
+    <php>if(checkAuthShow('Admin/Task/excel_out')){ </php>
    <li>
         <a href="{:U('Admin/Task/excel_out',
         					array(
@@ -64,6 +65,7 @@
         					)
         			)}">excel导出查询数据</a>
     </li>
+    <php>}</php>
 </ul>
 <table class="table table-striped table-bordered table-hover table-condensed">
     <tr>

@@ -69,6 +69,12 @@
             </td>
         </tr>
         <tr>    
+            <th>保证金</th>
+            <td>
+            	<input class="form-control" type="text" name="bail" value="{$assign['bail']}" />
+            </td>
+        </tr>
+        <tr>    
             <th>上线商品数量</th>
             <td>
             	<input type="radio" value="80"  name="online_goods_num" <eq name="assign['online_goods_num']" value="80">checked="checked"</eq> />80&emsp;&emsp;&emsp;&emsp;
@@ -141,6 +147,10 @@ $("#myForm").validate({
 			required: true,
 			digits:true
 		},
+		bail: {
+			required: true,
+			digits:true
+		},
 		terminals_num: {
 			required: true,
 			digits:true
@@ -148,6 +158,10 @@ $("#myForm").validate({
 	}, 
 	messages: { 		
 		service_month: { 
+			
+			digits:"只能输入整数"
+		},
+		bail: { 
 			
 			digits:"只能输入整数"
 		},

@@ -75,6 +75,12 @@ label.error {
 				            	<input class="form-control" type="text" name="service_month"  />
 				            </td>
 				        </tr>
+				        <tr>    
+				            <th>保证金</th>
+				            <td>
+				            	<input class="form-control" type="text" name="bail"  />
+				            </td>
+				        </tr>
 				        
 				        <tr>    
 				            <th>上线商品数量</th>
@@ -151,10 +157,18 @@ $("#myForm").validate({
 		service_month: {
 			required: true,
 			digits:true
+		},
+		bail: {
+			required: true,
+			digits:true
 		}
 	}, 
 	messages: { 		
 		service_month: { 
+			
+			digits:"只能输入整数"
+		},
+		bail: { 
 			
 			digits:"只能输入整数"
 		}

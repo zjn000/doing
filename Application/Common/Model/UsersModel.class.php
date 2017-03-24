@@ -70,8 +70,9 @@ class UsersModel extends BaseModel{
     	$list = $this->field('u.id,u.nikename')
     				->alias('u')
     				->join('__AUTH_GROUP_ACCESS__ aga ON u.id=aga.uid','LEFT')
-    				->join('__AUTH_GROUP__ ag ON aga.group_id=ag.id and ag.pid='.$sector_id)
+    				->join('__AUTH_GROUP__ ag ON aga.group_id=ag.id and u.status<2 and ag.pid='.$sector_id)
     				->select();
+    				
     	if(!empty($list))
     	{
     		foreach ($list as $row)

@@ -93,7 +93,7 @@ class VisitsController extends PublicBaseController{
     	if(IS_POST){
     		$data=I('post.');
     		
-    		empty($data['picture']) && $this->error('图片未成功上传',U('Api/Business/index'));
+    		//empty($data['picture']) && $this->error('图片未成功上传',U('Api/Business/index'));
     		
     		$result = D('Visits')->addData($data);
     		

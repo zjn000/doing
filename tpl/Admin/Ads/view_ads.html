@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>广告-详情</title>
+    <bootstrapcss />
+</head>
+<body id="xb-date">
+
+<!-- 导航栏开始 -->
+<div class="bjy-admin-nav">
+    <a href="{:U('Admin/Index/index')}" target="_parent"><i class="fa fa-home"></i> 首页</a>
+    &gt;
+   <a href="{:U('Admin/Ads/index')}" target="right_content">全部广告列表</a>
+    &gt;
+   查看详情
+</div>
+<!-- 导航栏结束 -->
+<form class="form-inline" method="post" id="myForm">
+<input type="hidden" name="id" value="{$assign['id']}">
+    <table class="table table-striped table-bordered table-hover table-condensed">
+        <tr>
+        	<th width="10%"><font color="red">*</font>商家编号</th>
+            <td>
+            	{$assign['b_no']}
+            </td>
+        </tr>
+        <tr>
+        	<th><font color="red">*</font>商户名称</th>
+            <td>
+            	{$assign['b_name']}
+            </td>
+        </tr>
+        
+        <tr>   
+            <th>商区</th>
+            <td>
+		   		{$assign['b_district']}
+            </td>
+        </tr>
+        
+        <tr>    
+        	<th><font color="red">*</font>定位</th>
+            <td>
+            	{$assign['coordinate']}
+            </td>
+        </tr>
+        <tr>    
+            <th><font color="red">*</font>投放范围</th>
+            <td>
+            	{$assign['range']}（KM）
+            </td>
+        </tr>
+        <tr>    
+            <th><font color="red">*</font>投放时段</th>
+            <td>
+            	{$assign['time_period']}
+            </td>
+        </tr>
+        <tr>    
+            <th><font color="red">*</font>金额</th>
+            <td>
+            	{$assign['price']}
+            </td>
+        </tr>
+        
+        <tr>   
+            <th>资料是否提交</th>
+            <td>
+            	{$assign['is_submit']}
+            </td>
+         </tr>
+        <tr>  
+        	<th>开始日期</th>
+            <td>{$assign['start_date']}</td>
+        </tr>
+        <tr>
+        	<th>结束日期</th>
+            <td>{$assign['end_date']}</td>
+        </tr>
+        <tr>    
+        	<th>备注</th>
+            <td>
+            	{$assign['remark']}
+            </td>
+        </tr>
+        
+        <tr>
+            <td colspan="2" style="text-align: center;">
+            	<a class="btn btn-success" href="javascript:history.go(-1);">&nbsp;&nbsp;返回上一页&nbsp;&nbsp;</a>
+            </td>
+        </tr>
+    </table>
+</form>
+<bootstrapjs />
+</body>
+</html>

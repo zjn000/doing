@@ -285,7 +285,9 @@ class IndexController extends HomeBaseController{
      * 用来做测试用
      */
     public function test(){
-        
+        $data = M('province_city_area')->where(array('pid'=>0))->select();
+        echo '<pre>';
+        print_r($data);
     }
 
 

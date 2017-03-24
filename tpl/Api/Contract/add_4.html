@@ -78,6 +78,12 @@
 				            	<input class="form-control" type="text" name="service_month"  />
 				            </td>
 				        </tr>
+				        <tr>    
+				            <th>保证金</th>
+				            <td>
+				            	<input class="form-control" type="text" name="bail"  />
+				            </td>
+				        </tr>
 				        
 				        <tr>    
 				            <th>服务项目</th>
@@ -194,6 +200,10 @@ $("#myForm").validate({
 			required: true,
 			digits:true
 		},
+		bail: {
+			required: true,
+			digits:true
+		},
 		service_charge: {
 			required: true,
 			digits:true
@@ -201,6 +211,10 @@ $("#myForm").validate({
 	}, 
 	messages: { 		
 		service_month: { 
+			
+			digits:"只能输入整数"
+		},
+		bail: { 
 			
 			digits:"只能输入整数"
 		},

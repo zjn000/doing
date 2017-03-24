@@ -68,6 +68,12 @@
             	<input class="form-control" type="text" name="terminals_num" value="{$assign['terminals_num']}" />
             </td>
         </tr>
+        <tr>    
+            <th>保证金</th>
+            <td>
+            	<input class="form-control" type="text" name="bail" value="{$assign['bail']}" />
+            </td>
+        </tr>
         
         <tr>    
             <th>服务项目</th>
@@ -186,6 +192,10 @@ $("#myForm").validate({
 			required: true,
 			digits:true
 		},
+		bail: {
+			required: true,
+			digits:true
+		},
 		terminals_num: {
 			required: true,
 			digits:true
@@ -193,6 +203,10 @@ $("#myForm").validate({
 	}, 
 	messages: { 		
 		service_month: { 
+			
+			digits:"只能输入整数"
+		},
+		bail: { 
 			
 			digits:"只能输入整数"
 		},
